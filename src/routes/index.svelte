@@ -1,31 +1,39 @@
 <script>
-    import SudokuCell from '../components/SudokuCell.svelte';
+	import SudokuBoard from '../components/SudokuBoard.svelte';
+	import PageContentContainer from '../components/PageContentContainer.svelte';
 </script>
 
-<div>
-    <SudokuCell></SudokuCell>
-</div>
+<PageContentContainer>
+	<SudokuBoard />
+</PageContentContainer>
 
 <style>
-    :global(:root){
-        --nord-0:#2E3440;
-        --nord-1:#3b4252;
-        --nord-2:#434c5e;
-        --nord-3:#4c566a;
-        --nord-4:#d8dee9;
-        --nord-5:#3539f0;
-        --nord-6:#eceff4;
-        --nord-7:#8fbcbb;
-        --nord-8:#88c0d0;
-        --nord-9:#81a1c1;
-        --nord-10:#5e81ac;
-        --nord-11:#bf616a;
-        --nord-12:#d08770;
-        --nord-13:#ebcb8b;
-        --nord-14:#a3be8c;
-        --nord-15:#b48ead;
+	:global(:root) {
+		--nord-0: #2e3440;
+		--nord-1: #3b4252;
+		--nord-2: #434c5e;
+		--nord-3: #4c566a;
+		--nord-4: #d8dee9;
+		--nord-5: #e5e9f0;
+		--nord-6: #eceff4;
+		--nord-7: #8fbcbb;
+		--nord-8: #88c0d0;
+		--nord-9: #81a1c1;
+		--nord-10: #5e81ac;
+		--nord-11: #bf616a;
+		--nord-12: #d08770;
+		--nord-13: #ebcb8b;
+		--nord-14: #a3be8c;
+		--nord-15: #b48ead;
 
-        --text-color: var(--nord-2);
-        --background-color: var(--nord-6);
-    }
+		--text-color: var(--nord-2);
+		--background-color: var(--nord-6);
+	}
+
+	body {
+		margin: 0 0;
+		padding: 0 0;
+		overflow-x: hidden;
+		background: var(--nord6);
+	}
 </style>
