@@ -28,5 +28,6 @@
 	.board {
 		grid-gap: 3px;
 		padding: 3px;
+		border-radius: 9px;
 	}
 </style>
