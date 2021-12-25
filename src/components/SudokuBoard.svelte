@@ -94,20 +94,29 @@
 {#if !!board && board.length !== 16 && board.length !== 81}
 	<div>Board is not correct length.</div>
 {:else if board?.length}
-	<SudokuBlock board {order}>
-		{#each chunks as chunk}
-			<SudokuBlock {order}>
-				{#each chunk as cell}
-					<SudokuCell
-						number={cell.number}
-						row={cell.row}
-						col={cell.col}
-						selected={cell.selected}
-						peerCell={cell.peerCell}
-						on:cellSelection={handleCellSelection}
-					/>
-				{/each}
-			</SudokuBlock>
-		{/each}
-	</SudokuBlock>
+	<div>
+    <SudokuBlock board {order}>
+      {#each chunks as chunk}
+        <SudokuBlock {order}>
+          {#each chunk as cell}
+            <SudokuCell
+              number={cell.number}
+              row={cell.row}
+              col={cell.col}
+              selected={cell.selected}
+              peerCell={cell.peerCell}
+              on:cellSelection={handleCellSelection}
+            />
+          {/each}
+        </SudokuBlock>
+      {/each}
+    </SudokuBlock>
+  </div>
 {/if}
+
+<style>
+  div {
+    padding: 4px 4px;
+    aspect-ratio: 1;    
+  }
+</style>

@@ -13,7 +13,6 @@
 		display: grid;
 		grid-gap: 1px;
 		aspect-ratio: 1;
-		width: 100%;
 	}
 
 	.three {

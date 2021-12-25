@@ -17,12 +17,7 @@
 	}
 
 	.center {
-		/* display: flex;
-    flex-direction: row;
-    align-content: center;
-    width: 100vw; */
 		margin: 0 0;
-		padding: 4px 4px;
 		left: 0;
 		right: 0;
 		top: 0;

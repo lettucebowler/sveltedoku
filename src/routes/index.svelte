@@ -28,6 +28,8 @@
 
 		--text-color: var(--nord-2);
 		--background-color: var(--nord-6);
+
+        font-family: --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	}
 
 	body {
