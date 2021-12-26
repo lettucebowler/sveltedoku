@@ -1,17 +1,18 @@
 <script>
-  import SudokuBoard from '../components/SudokuBoard.svelte';
+	import SudokuBoard from '../components/SudokuBoard.svelte';
 
-  export let order = 3;
+	export let order = 3;
 
-  let boardString = '000801000000000043500000000000070800000000100020030000600000075003400000000200600';
-  let boardList = boardString.split('').map((char) => parseInt(char));
-  let initialBoardList = boardList;
-  let selectedRow;
-  let selectedCol;
+	let boardString =
+		'000801000000000043500000000000070800000000100020030000600000075003400000000200600';
+	let boardList = boardString.split('').map((char) => parseInt(char));
+	let initialBoardList = boardList;
+	let selectedRow;
+	let selectedCol;
 
-  $: board = getBoard(boardList, selectedRow, selectedCol);
+	$: board = getBoard(boardList, selectedRow, selectedCol);
 
-  const isPeerCell = (row, col, order, selectedRow, selectedCol) => {
+	const isPeerCell = (row, col, order, selectedRow, selectedCol) => {
 		const isSameRow = row === selectedRow;
 		const isSameCol = col === selectedCol;
 		const isSelected = isSameRow && isSameCol;
@@ -75,7 +76,7 @@
 	const getBoard = (board, selectedRow, selectedCol) =>
 		board.map((c, index) => getCell(c, index, order, selectedRow, selectedCol));
 
-  const doMove = (board, row, col, num) => {
+	const doMove = (board, row, col, num) => {
 		const i = row * order * order + col;
 		if (board[i].initial) {
 			return board.map((cell) => cell.number);
@@ -89,24 +90,23 @@
 			.map((cell) => cell.number);
 	};
 
-  const handleKeyPress = (event) => {
+	const handleKeyPress = (event) => {
 		const num = parseInt(event.key);
 		if (num || num === 0) {
 			boardList = doMove(board, selectedRow, selectedCol, num);
 		}
 	};
 
-  const handleCellSelection = (event) => {
+	const handleCellSelection = (event) => {
 		const { row, col } = event?.detail;
 		selectedRow = row;
 		selectedCol = col;
 	};
 
-  // onMount(async () => {
-  //   board = getBoard(boardList);
-  // });
+	// onMount(async () => {
+	//   board = getBoard(boardList);
+	// });
 </script>
 
 <svelte:window on:keypress={handleKeyPress} />
-<SudokuBoard order={3} board={board} on:cellSelection={handleCellSelection}/>
-
+<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />

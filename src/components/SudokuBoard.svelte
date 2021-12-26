@@ -3,9 +3,9 @@
 	import SudokuBlock from '../components/SudokuBlock.svelte';
 
 	export let order = 3;
-  export let board;
+	export let board;
 
-	$: chunks =  board ? getChunks(board) : [];
+	$: chunks = board ? getChunks(board) : [];
 
 	const getChunk = (row, col, order) => {
 		const trunk = Math.floor(row / order);
@@ -25,7 +25,6 @@
 		return b;
 	};
 </script>
-
 
 {#if !!board && board.length !== 16 && board.length !== 81}
 	<div>Board is not correct length.</div>
