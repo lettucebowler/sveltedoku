@@ -3,13 +3,12 @@
 	import SudokuBlock from '../components/SudokuBlock.svelte';
 	import { onMount } from 'svelte';
 
-	export let initialBoardString =
+	export let boardString =
 		'000801000000000043500000000000070800000000100020030000600000075003400000000200600';
-	// export let initialBoardString = '237841569186795243594326718315674892469582137728139456642918375853467921971253684';
 	export let order = 3;
 
-	const initialBoardList = initialBoardString.split('').map((char) => parseInt(char));
-	let boardList = initialBoardList;
+	const boardList = boardString.split('').map((char) => parseInt(char));
+  const initialBoardList = boardList;
 	let selectedRow;
 	let selectedCol;
 
@@ -98,19 +97,19 @@
 	const getBoard = (board, selectedRow, selectedCol) =>
 		board.map((c, index) => getCell(c, index, order, selectedRow, selectedCol));
 
-	const doMove = (board, row, col, num) => {
-		const i = row * order * order + col;
-		if (board[i].initial) {
-			return board.map((cell) => cell.number);
-		}
-		const before = board.filter((cell, index) => index < i);
-		const after = board.filter((cell, index) => index > i);
-		const now = getCell(num, i, order, row, col);
-		return before
-			.concat(now)
-			.concat(after)
-			.map((cell) => cell.number);
-	};
+	// const doMove = (board, row, col, num) => {
+	// 	const i = row * order * order + col;
+	// 	if (board[i].initial) {
+	// 		return board.map((cell) => cell.number);
+	// 	}
+	// 	const before = board.filter((cell, index) => index < i);
+	// 	const after = board.filter((cell, index) => index > i);
+	// 	const now = getCell(num, i, order, row, col);
+	// 	return before
+	// 		.concat(now)
+	// 		.concat(after)
+	// 		.map((cell) => cell.number);
+	// };
 
 	const handleCellSelection = (event) => {
 		const { row, col } = event?.detail;
@@ -118,19 +117,19 @@
 		selectedCol = col;
 	};
 
-	const handleKeyPress = (event) => {
-		const num = parseInt(event.key);
-		if (num || num === 0) {
-			boardList = doMove(board, selectedRow, selectedCol, num);
-		}
-	};
+	// const handleKeyPress = (event) => {
+	// 	const num = parseInt(event.key);
+	// 	if (num || num === 0) {
+	// 		boardList = doMove(board, selectedRow, selectedCol, num);
+	// 	}
+	// };
 
 	onMount(async () => {
 		selectedRow = null;
 	});
 </script>
 
-<svelte:window on:keypress={handleKeyPress} />
+<!-- <svelte:window on:keypress={handleKeyPress} /> -->
 
 {#if !!board && board.length !== 16 && board.length !== 81}
 	<div>Board is not correct length.</div>
