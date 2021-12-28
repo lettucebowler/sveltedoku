@@ -3,9 +3,11 @@
 
 	export let order = 3;
 
-	let boardString =
-		'000801000000000043500000000000070800000000100020030000600000075003400000000200600';
-	let boardList = boardString.split('').map((char) => parseInt(char));
+	// let boardString =
+	// 	'000801000000000043500000000000070800000000100020030000600000075003400000000200600';
+	export let boardString =
+		'000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+	let boardList = boardString.split('').map((char) => parseInt(char) || 0);
 	let initialBoardList = boardList;
 	let selectedRow;
 	let selectedCol;
@@ -90,11 +92,33 @@
 			.map((cell) => cell.number);
 	};
 
+	const moveSelection = (rowDelta, colDelta) => {
+		const newRow = selectedRow + rowDelta;
+		const newCol = selectedCol + colDelta;
+		const b = order * order;
+		selectedRow = ((newRow % b) + b) % b;
+		selectedCol = ((newCol % b) + b) % b;
+	}
+
 	const handleKeyPress = (event) => {
-		const num = parseInt(event.key);
-		if (num || num === 0) {
-			boardList = doMove(board, selectedRow, selectedCol, num);
-		}
+		const actions = {
+			0() {boardList = doMove(board, selectedRow, selectedCol, 0)},
+			1() {boardList = doMove(board, selectedRow, selectedCol, 1)},
+			2() {boardList = doMove(board, selectedRow, selectedCol, 2)},
+			3() {boardList = doMove(board, selectedRow, selectedCol, 3)},
+			4() {boardList = doMove(board, selectedRow, selectedCol, 4)},
+			5() {boardList = doMove(board, selectedRow, selectedCol, 5)},
+			6() {boardList = doMove(board, selectedRow, selectedCol, 6)},
+			7() {boardList = doMove(board, selectedRow, selectedCol, 7)},
+			8() {boardList = doMove(board, selectedRow, selectedCol, 8)},
+			9() {boardList = doMove(board, selectedRow, selectedCol, 9)},
+			ArrowUp() {moveSelection(-1, 0)},
+			ArrowDown() {moveSelection(1, 0)},
+			ArrowLeft() {moveSelection(0, -1)},
+			ArrowRight() {moveSelection(0, 1)},
+		};
+		const { key } = event;
+		actions[key] && actions[key]();
 	};
 
 	const handleCellSelection = (event) => {
@@ -102,11 +126,7 @@
 		selectedRow = row;
 		selectedCol = col;
 	};
-
-	// onMount(async () => {
-	//   board = getBoard(boardList);
-	// });
 </script>
 
-<svelte:window on:keypress={handleKeyPress} />
+<svelte:window on:keydown={handleKeyPress} />
 <SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
