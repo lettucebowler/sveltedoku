@@ -1,20 +1,22 @@
-<script>
+<script lang="ts">
+	import  SudokuToolCollection  from 'sudokutoolcollection';
+	import { onMount } from 'svelte';
+
 	import SudokuBoard from '../components/SudokuBoard.svelte';
+	import type { Cell, CellSelectionEvent } from '../types/types';
 
 	export let order = 3;
-
-	// let boardString =
-	// 	'000801000000000043500000000000070800000000100020030000600000075003400000000200600';
 	export let boardString =
 		'000000000000000000000000000000000000000000000000000000000000000000000000000000000';
 	let boardList = boardString.split('').map((char) => parseInt(char) || 0);
 	let initialBoardList = boardList;
-	let selectedRow;
-	let selectedCol;
+	let selectedRow: number;
+	let selectedCol: number;
+	let hints = 30;
 
 	$: board = getBoard(boardList, selectedRow, selectedCol);
 
-	const isPeerCell = (row, col, order, selectedRow, selectedCol) => {
+	const isPeerCell = (row: number, col: number, order: number, selectedRow: number, selectedCol: number) => {
 		const isSameRow = row === selectedRow;
 		const isSameCol = col === selectedCol;
 		const isSelected = isSameRow && isSameCol;
@@ -24,7 +26,7 @@
 		return !isSelected && (isSameRow || isSameCol || isSameBlock);
 	};
 
-	const isCellLegal = (number, row, col, board, order) => {
+	const isCellLegal = (number: number, row: number, col: number, board: number[], order: number) => {
 		const lane = Math.floor(row / order);
 		const trunk = Math.floor(col / order);
 		const rowLegal =
@@ -33,6 +35,7 @@
 				const fRow = Math.floor(index / order / order);
 				return row == fRow && board[index] === number;
 			}).length <= 1;
+		console.log(rowLegal);
 		const colLegal =
 			!number ||
 			board.filter((num, index) => {
@@ -46,10 +49,10 @@
 				const fLane = Math.floor((index % (order * order)) / order);
 				return lane === fLane && trunk === fTrunk && board[index] === number;
 			}).length <= 1;
-		return rowLegal && colLegal && blockLegal;
+		return rowLegal && colLegal && blockLegal && !!number;
 	};
 
-	const getCell = (number, index, order, selectedRow, selectedCol) => {
+	const getCell= (number: number, index: number, order: number, selectedRow: number, selectedCol: number): Cell => {
 		const row = Math.floor(index / (order * order));
 		const col = Math.floor(index % (order * order));
 		const selected = row === selectedRow && col === selectedCol;
@@ -58,12 +61,11 @@
 		const peerDigit =
 			number && (row !== selectedRow || col !== selectedCol) && number === selectedNum;
 		const initial = !!initialBoardList[index];
+		console.log(initialBoardList[index]);
 		const legal = isCellLegal(number, row, col, boardList, order);
-		const success =
-			board &&
-			board.filter((cell) => cell.initial || cell.valid).length === order * order * order * order;
+		const success = false;
 		return {
-			number: parseInt(number),
+			number : number ? number.toString() : '',
 			row,
 			col,
 			selected,
@@ -75,24 +77,29 @@
 		};
 	};
 
-	const getBoard = (board, selectedRow, selectedCol) =>
-		board.map((c, index) => getCell(c, index, order, selectedRow, selectedCol));
-
-	const doMove = (board, row, col, num) => {
-		const i = row * order * order + col;
-		if (board[i].initial) {
-			return board.map((cell) => cell.number);
+	const getBoard = (board: number[], selectedRow: number, selectedCol: number): Cell[] => {
+		if (!board) {
+			return null;
 		}
-		const before = board.filter((cell, index) => index < i);
-		const after = board.filter((cell, index) => index > i);
-		const now = getCell(num, i, order, row, col);
-		return before
-			.concat(now)
-			.concat(after)
-			.map((cell) => cell.number);
+		const boardReal = board.map((c, index) => getCell(c, index, order, selectedRow, selectedCol));
+		const success = boardReal.filter((cell: Cell) => cell.legal).length === order * order * order * order;
+		const validated = boardReal.map((cell: Cell) => ({...cell, success}));
+		return validated;
 	};
 
-	const moveSelection = (rowDelta, colDelta) => {
+	const doMove = (board: Cell[], row: number, col: number, num: number) => {
+		const i = row * order * order + col;
+		if (board[i].initial) {
+			return board.map((cell) => parseInt(cell.number) || 0);
+		}
+		const before = board.filter((cell, index) => index < i).map((cell) => parseInt(cell.number) || 0);
+		const after = board.filter((cell, index) => index > i).map((cell) => parseInt(cell.number) || 0);
+		const newBoard = [...before, num, ...after];
+		console.log(newBoard);
+		return [...before, num, ...after];
+	};
+
+	const moveSelection = (rowDelta: number,  colDelta: number) => {
 		const newRow = selectedRow + rowDelta;
 		const newCol = selectedCol + colDelta;
 		const b = order * order;
@@ -100,7 +107,7 @@
 		selectedCol = ((newCol % b) + b) % b;
 	}
 
-	const handleKeyPress = (event) => {
+	const handleKeyPress = (event: {key: string}) => {
 		const actions = {
 			0() {boardList = doMove(board, selectedRow, selectedCol, 0)},
 			1() {boardList = doMove(board, selectedRow, selectedCol, 1)},
@@ -121,11 +128,21 @@
 		actions[key] && actions[key]();
 	};
 
-	const handleCellSelection = (event) => {
-		const { row, col } = event?.detail;
+	const handleCellSelection = (event: CellSelectionEvent) => {
+		const { row, col } = event.detail;
 		selectedRow = row;
 		selectedCol = col;
 	};
+
+	const generateBoard = (hints: number): number[] => {
+		const board = SudokuToolCollection().generator.generate(hints);
+		return board.split('.').join('0').split('').map((num: string) => parseInt(num) || 0);
+	};
+
+	onMount(async () => {
+		initialBoardList = generateBoard(hints);
+		boardList = initialBoardList;
+	});
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
