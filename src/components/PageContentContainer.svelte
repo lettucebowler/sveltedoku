@@ -7,12 +7,10 @@
 <style>
 	.page {
 		width: 62.5vh;
-		display: grid;
 		flex-direction: column;
 		height: 100vh;
 		text-align: center;
 		margin: auto;
-		grid-template-columns: 1fr;
 		padding: 0px 0px;
 	}
 

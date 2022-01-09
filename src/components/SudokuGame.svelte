@@ -4,6 +4,7 @@
 
 	import SudokuBoard from '../components/SudokuBoard.svelte';
 	import type { Cell, CellSelectionEvent } from '../types/types';
+import SudokuButton from './SudokuButton.svelte';
 
 	export let order = 3;
 	export let boardString =
@@ -35,7 +36,6 @@
 				const fRow = Math.floor(index / order / order);
 				return row == fRow && board[index] === number;
 			}).length <= 1;
-		console.log(rowLegal);
 		const colLegal =
 			!number ||
 			board.filter((num, index) => {
@@ -61,7 +61,6 @@
 		const peerDigit =
 			number && (row !== selectedRow || col !== selectedCol) && number === selectedNum;
 		const initial = !!initialBoardList[index];
-		console.log(initialBoardList[index]);
 		const legal = isCellLegal(number, row, col, boardList, order);
 		const success = false;
 		return {
@@ -95,7 +94,6 @@
 		const before = board.filter((cell, index) => index < i).map((cell) => parseInt(cell.number) || 0);
 		const after = board.filter((cell, index) => index > i).map((cell) => parseInt(cell.number) || 0);
 		const newBoard = [...before, num, ...after];
-		console.log(newBoard);
 		return [...before, num, ...after];
 	};
 
@@ -135,15 +133,25 @@
 	};
 
 	const generateBoard = (hints: number): number[] => {
+
 		const board = SudokuToolCollection().generator.generate(hints);
 		return board.split('.').join('0').split('').map((num: string) => parseInt(num) || 0);
 	};
 
-	onMount(async () => {
+	const newGame = () => {
 		initialBoardList = generateBoard(hints);
 		boardList = initialBoardList;
+	}
+
+	onMount(async () => {
+		newGame();
 	});
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
 <SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
+<SudokuButton
+	text="test"
+	type="primary"
+	on:SudokuButtonClick={newGame}
+/>
