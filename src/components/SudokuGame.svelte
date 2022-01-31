@@ -151,7 +151,7 @@ import SudokuButton from './SudokuButton.svelte';
 <svelte:window on:keydown={handleKeyPress} />
 <SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
 <SudokuButton
-	text="test"
+	buttonText="test"
 	type="primary"
 	on:SudokuButtonClick={newGame}
 />

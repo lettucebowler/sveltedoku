@@ -1,11 +1,11 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    export let text;
+    export let buttonText;
     const dispatch = createEventDispatcher();
     export let type;
 </script>
 
-<button class={`${type} square`} on:click={() => dispatch("SudokuButtonClick")}>{text}</button>
+<button class={`${type} square`} on:click={() => dispatch("SudokuButtonClick")}>{buttonText}</button>
 
 <style>
     button {
