@@ -7,13 +7,12 @@
 	import SudokuControls from './SudokuControls.svelte';
 
 	export let order = 3;
-	export let boardString =
-		'000000000000000000000000000000000000000000000000000000000000000000000000000000000';
-	let boardList = boardString.split('').map((char) => parseInt(char) || 0);
+	export let hints = 30;
+
+	let boardList = Array(81).fill(0);
 	let initialBoardList = boardList;
 	let selectedRow: number;
 	let selectedCol: number;
-	let hints = 30;
 
 	$: board = getBoard(boardList, selectedRow, selectedCol);
 

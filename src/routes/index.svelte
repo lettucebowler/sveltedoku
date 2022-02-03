@@ -5,5 +5,5 @@
 </script>
 
 <PageContentContainer>
-	<SudokuGame />
+	<SudokuGame hints={30} />
 </PageContentContainer>

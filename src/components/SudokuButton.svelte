@@ -36,7 +36,7 @@
 
 	.fluid {
 		grid-column: span 5;
-		aspect-ratio: 5;
+		aspect-ratio: 6;
 	}
 
 	.primary {
