@@ -53,10 +53,3 @@
 		</SudokuBlock>
 	</div>
 {/if}
-
-<style>
-	div {
-		padding: 4px 4px;
-		aspect-ratio: 1;
-	}
-</style>

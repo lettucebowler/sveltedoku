@@ -1,11 +1,18 @@
 <script>
     import { createEventDispatcher } from "svelte";
     export let buttonText;
+    export let square = true;
+    export let fluid = false;
     const dispatch = createEventDispatcher();
     export let type;
 </script>
 
-<button class={`${type} square`} on:click={() => dispatch("SudokuButtonClick")}>{buttonText}</button>
+<button
+    class={`${type} ${square ? 'square' : ''} ${fluid ? 'fluid' : ''}`}
+    on:click={() => dispatch("SudokuButtonClick")}
+>
+    {buttonText}
+</button>
 
 <style>
     button {
@@ -22,6 +29,16 @@
         font-size: 16px;
     }
 
+    .square {
+        aspect-ratio: 1;
+        grid-column: span 1;
+    }
+
+    .fluid {
+        grid-column: span 5;
+        aspect-ratio: 5;
+    }
+
     .primary {
         background: var(--nord-3);
         color: var(--nord-6);
@@ -31,7 +48,7 @@
         background: var(--nord-2);
     }
 
-    .square {
-        aspect-ratio: 1;
+    .primary:active {
+        background: var(--nord-1);
     }
 </style>

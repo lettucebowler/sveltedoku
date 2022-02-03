@@ -5,6 +5,7 @@
 	import SudokuBoard from '../components/SudokuBoard.svelte';
 	import type { Cell, CellSelectionEvent } from '../types/types';
 	import SudokuButton from './SudokuButton.svelte';
+	import SudokuControls from './SudokuControls.svelte';
 
 	export let order = 3;
 	export let boardString =
@@ -149,9 +150,24 @@
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
-<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
-<SudokuButton
-	buttonText="test"
-	type="primary"
-	on:SudokuButtonClick={newGame}
-/>
+<div class="wrapper">
+	<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
+	<div class="spacing" />
+	<SudokuControls
+		on:SudokuMove={(event) => {
+			console.log(`Apply move ${event.detail.num}`);
+			boardList = doMove(board, selectedRow, selectedCol, event.detail.num);
+		}}
+		on:newGame={newGame}
+	/>
+</div>
+
+<style>
+	.wrapper {
+		padding: 4px 4px;
+	}
+	
+	.spacing {
+		padding: 2px 0 2px 0;
+	}
+</style>
