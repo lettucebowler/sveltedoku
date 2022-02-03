@@ -17,7 +17,7 @@
 	const getChunks = (board) => {
 		const b =
 			board &&
-			board.reduce((all, one, i) => {
+			board.reduce((all, one) => {
 				const ch = getChunk(one.row, one.col, order);
 				all[ch] = [].concat(all[ch] || [], one);
 				return all;

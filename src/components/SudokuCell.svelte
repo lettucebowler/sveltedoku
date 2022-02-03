@@ -20,7 +20,18 @@
 	const left = col === 0;
 	const right = col === order * order - 1;
 
-	const getClass = (selected, peerCell, peerDigit, top, right, bottom, left, initial, valid, success) => {
+	const getClass = (
+		selected,
+		peerCell,
+		peerDigit,
+		top,
+		right,
+		bottom,
+		left,
+		initial,
+		valid,
+		success
+	) => {
 		const classes = [];
 		selected && classes.push('selected');
 		peerCell && classes.push('peerCell');
@@ -37,7 +48,18 @@
 		return classes.join(' ');
 	};
 
-	$: classString = getClass(selected, peerCell, peerDigit, top, right, bottom, left, initial, valid, success);
+	$: classString = getClass(
+		selected,
+		peerCell,
+		peerDigit,
+		top,
+		right,
+		bottom,
+		left,
+		initial,
+		valid,
+		success
+	);
 
 	const dispatch = createEventDispatcher();
 
@@ -79,7 +101,7 @@
 		color: var(--text-color);
 		text-align: center;
 		cursor: pointer;
-		-webkit-user-select: none; /* Safari */        
+		-webkit-user-select: none; /* Safari */
 		-moz-user-select: none; /* Firefox */
 		-ms-user-select: none; /* IE10+/Edge */
 		user-select: none; /* Standard */
