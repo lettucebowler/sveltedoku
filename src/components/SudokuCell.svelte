@@ -14,12 +14,30 @@
 
 	let w;
 	let h;
-	let clicked = false;
 
 	const top = row === 0;
 	const bottom = row === order * order - 1;
 	const left = col === 0;
 	const right = col === order * order - 1;
+
+	const getClass = (selected, peerCell, peerDigit, top, right, bottom, left, initial, valid, success) => {
+		const classes = [];
+		selected && classes.push('selected');
+		peerCell && classes.push('peerCell');
+		peerDigit && classes.push('peerDigit');
+		top && right && classes.push('topRight');
+		top && left && classes.push('topLeft');
+		bottom && right && classes.push('bottomRight');
+		bottom && left && classes.push('bottomLeft');
+		!initial && getValidity(initial, valid) && classes.push('valid');
+		!initial && !getValidity(initial, valid) && classes.push('invalid');
+		initial && classes.push('intitial');
+		success && classes.push('success');
+
+		return classes.join(' ');
+	};
+
+	$: classString = getClass(selected, peerCell, peerDigit, top, right, bottom, left, initial, valid, success);
 
 	const dispatch = createEventDispatcher();
 
@@ -45,18 +63,7 @@
 	style="
         font-size: {w * 0.5}px;
     "
-	class={`
-		${!!selected ? 'selected' : ''}
-		${!!peerCell ? 'peerCell' : ''}
-		${!!peerDigit ? 'peerDigit' : ''}
-		${top && right ? 'topRight' : ''}
-		${top && left ? 'topLeft' : ''}
-		${bottom && right ? 'bottomRight' : ''}
-		${bottom && left ? 'bottomLeft' : ''}
-		${getValidity(initial, valid) ? 'valid' : 'invalid'}
-		${initial ? 'initial' : ''}
-		${success ? 'success' : ''}
-	`}
+	class={classString}
 >
 	{number !== 0 ? number : ''}
 </div>

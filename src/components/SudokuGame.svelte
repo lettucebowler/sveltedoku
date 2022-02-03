@@ -4,7 +4,7 @@
 
 	import SudokuBoard from '../components/SudokuBoard.svelte';
 	import type { Cell, CellSelectionEvent } from '../types/types';
-import SudokuButton from './SudokuButton.svelte';
+	import SudokuButton from './SudokuButton.svelte';
 
 	export let order = 3;
 	export let boardString =
