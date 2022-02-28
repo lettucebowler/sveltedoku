@@ -26,7 +26,7 @@
 		justify-content: center;
 		font-family: inherit;
 		min-height: 50px;
-		font-size: 16px;
+		font-size: 1.5rem;;
 	}
 
 	.square {
