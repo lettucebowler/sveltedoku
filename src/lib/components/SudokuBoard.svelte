@@ -1,6 +1,6 @@
 <script>
-	import SudokuCell from '../components/SudokuCell.svelte';
-	import SudokuBlock from '../components/SudokuBlock.svelte';
+	import SudokuCell from '$lib/components/SudokuCell.svelte';
+	import SudokuBlock from '$lib/components/SudokuBlock.svelte';
 
 	export let order = 3;
 	export let board;
@@ -29,7 +29,7 @@
 {#if !!board && board.length !== 16 && board.length !== 81}
 	<div>Board is not correct length.</div>
 {:else if board?.length}
-	<div>
+	<div class="container">
 		<SudokuBlock board {order}>
 			{#each chunks as chunk}
 				<SudokuBlock {order}>
@@ -53,3 +53,11 @@
 		</SudokuBlock>
 	</div>
 {/if}
+
+<style>
+	.container {
+		width: calc(100% - 4px);
+		padding: 2px 2px;
+		margin: auto;
+	}
+</style>

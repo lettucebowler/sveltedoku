@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+  sudoku:
+    build: .
+    container_name: lettuce-sudoku
+    restart: unless-stopped
+    environment:
+      - TZ=America/Chicago
+networks:
+  default:
+    external:
+      name: nginx

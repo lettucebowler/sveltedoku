@@ -20,23 +20,14 @@
 		border: none;
 		transition: 0.1s ease-in-out;
 		cursor: pointer;
-		font-weight: 900;
 		display: inline;
 		align-items: center;
 		justify-content: center;
 		font-family: inherit;
 		min-height: 50px;
-		font-size: 1.5rem;;
-	}
-
-	.square {
-		aspect-ratio: 1;
-		grid-column: span 1;
-	}
-
-	.fluid {
-		grid-column: span 5;
-		aspect-ratio: 6;
+		height: calc(100%);
+		width: calc(100%);
+		font-size: 2.5rem;
 	}
 
 	.primary {

@@ -12,9 +12,6 @@
 	export let initial = false;
 	export let success = false;
 
-	let w;
-	let h;
-
 	const top = row === 0;
 	const bottom = row === order * order - 1;
 	const left = col === 0;
@@ -78,15 +75,7 @@
 	};
 </script>
 
-<div
-	on:click={handleClick}
-	bind:clientWidth={w}
-	bind:clientHeight={h}
-	style="
-        font-size: {w * 0.5}px;
-    "
-	class={classString}
->
+<div on:click={handleClick} class={classString}>
 	{number !== 0 ? number : ''}
 </div>
 
@@ -96,6 +85,7 @@
 		aspect-ratio: 1;
 		display: flex;
 		justify-content: center;
+		font-size: 3rem;
 		align-items: center;
 		background-color: var(--background-color);
 		color: var(--text-color);

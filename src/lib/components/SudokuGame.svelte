@@ -1,15 +1,14 @@
 <script lang="ts">
-	import SudokuToolCollection from 'sudokutoolcollection';
-	import { onMount } from 'svelte';
-
-	import SudokuBoard from '../components/SudokuBoard.svelte';
-	import type { Cell, CellSelectionEvent } from '../types/types';
-	import SudokuControls from './SudokuControls.svelte';
+	import SudokuBoard from '$lib/components/SudokuBoard.svelte';
+	import type { Cell, CellSelectionEvent } from '$lib/types/types';
+	import SudokuControls from '$lib/components/SudokuControls.svelte';
+	import { generateBoard } from '$lib/util/boardUtils';
 
 	export let order = 3;
 	export let hints = 30;
+	export let initialGameList = generateBoard(hints);
 
-	let boardList = Array(81).fill(0);
+	let boardList = initialGameList;
 	let initialBoardList = boardList;
 	let selectedRow: number;
 	let selectedCol: number;
@@ -60,7 +59,7 @@
 				const fLane = Math.floor((index % (order * order)) / order);
 				return lane === fLane && trunk === fTrunk && board[index] === number;
 			}).length <= 1;
-		return rowLegal && colLegal && blockLegal && !!number;
+		return rowLegal && colLegal && blockLegal;
 	};
 
 	const getCell = (
@@ -99,7 +98,7 @@
 		}
 		const boardReal = board.map((c, index) => getCell(c, index, order, selectedRow, selectedCol));
 		const success =
-			boardReal.filter((cell: Cell) => cell.legal).length === order * order * order * order;
+			boardReal.filter((cell: Cell) => !!cell.legal && cell.number !== '').length === order * order * order * order;
 		const validated = boardReal.map((cell: Cell) => ({ ...cell, success }));
 		return validated;
 	};
@@ -181,44 +180,18 @@
 		selectedCol = col;
 	};
 
-	const generateBoard = (hints: number): number[] => {
-		const board = SudokuToolCollection().generator.generate(hints);
-		return board
-			.split('.')
-			.join('0')
-			.split('')
-			.map((num: string) => parseInt(num) || 0);
-	};
-
 	const newGame = () => {
 		initialBoardList = generateBoard(hints);
 		boardList = initialBoardList;
 	};
-
-	onMount(async () => {
-		newGame();
-	});
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
-<div class="wrapper">
-	<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
-	<div class="spacing" />
-	<SudokuControls
-		on:SudokuMove={(event) => {
-			console.log(`Apply move ${event.detail.num}`);
-			boardList = doMove(board, selectedRow, selectedCol, event.detail.num);
-		}}
-		on:newGame={newGame}
-	/>
-</div>
-
-<style>
-	.wrapper {
-		padding: 4px 4px;
-	}
-
-	.spacing {
-		padding: 2px 0 2px 0;
-	}
-</style>
+<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
+<SudokuControls
+	on:SudokuMove={(event) => {
+		console.log(`Apply move ${event.detail.num}`);
+		boardList = doMove(board, selectedRow, selectedCol, event.detail.num);
+	}}
+	on:newGame={newGame}
+/>

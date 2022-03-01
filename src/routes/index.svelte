@@ -1,9 +1,11 @@
 <script>
-	import SudokuGame from '../components/SudokuGame.svelte';
-	import PageContentContainer from '../components/PageContentContainer.svelte';
-	import '../app.css';
+	import SudokuGame from '$lib/components/SudokuGame.svelte';
+	import PageContentContainer from '$lib/components/PageContentContainer.svelte';
+	import '$lib/styles/app.css';
+
+	export let initialGameList;
 </script>
 
 <PageContentContainer>
-	<SudokuGame hints={30} />
+	<SudokuGame {initialGameList} />
 </PageContentContainer>
