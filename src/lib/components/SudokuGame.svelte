@@ -98,7 +98,8 @@
 		}
 		const boardReal = board.map((c, index) => getCell(c, index, order, selectedRow, selectedCol));
 		const success =
-			boardReal.filter((cell: Cell) => !!cell.legal && cell.number !== '').length === order * order * order * order;
+			boardReal.filter((cell: Cell) => !!cell.legal && cell.number !== '').length ===
+			order * order * order * order;
 		const validated = boardReal.map((cell: Cell) => ({ ...cell, success }));
 		return validated;
 	};

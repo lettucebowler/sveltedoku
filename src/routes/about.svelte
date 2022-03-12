@@ -11,8 +11,10 @@
 <main>
 	<h1>Hello I'm Grant!</h1>
 	<p>
-		I like Sudoku puzzles. I made this game to give myself a reason to experiment with <a href="https://kit.svelte.dev" target="_blank">svelte-kit</a>. Code
-		for this project can be found
+		I like Sudoku puzzles. I made this game to give myself a reason to experiment with <a
+			href="https://kit.svelte.dev"
+			target="_blank">svelte-kit</a
+		>. Code for this project can be found
 		<a target="_blank" href="https://github.com/lettucebowler/sveltedoku">here</a>.
 	</p>
 </main>
@@ -26,7 +28,7 @@
 		text-align: center;
 		min-height: 50vh;
 		color: var(--nord-4);
-		height: 100%;
+		height: 95vh;
 	}
 
 	h1 {
