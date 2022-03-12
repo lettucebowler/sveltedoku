@@ -6,6 +6,4 @@
 	export let initialGameList;
 </script>
 
-<PageContentContainer>
-	<SudokuGame {initialGameList} />
-</PageContentContainer>
+<SudokuGame {initialGameList} />

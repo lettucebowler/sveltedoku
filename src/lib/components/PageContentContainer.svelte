@@ -6,21 +6,19 @@
 
 <style>
 	.page {
-		width: 62.5vh;
-		flex-direction: column;
+		aspect-ratio: 5 / 8.5;
+		margin: 0 auto;
+		min-height: 100%;
 		height: 100vh;
-		text-align: center;
-		margin: auto;
-		padding: 0px 0px;
+		max-height: 100vh;
+		max-width: 100vw;
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
 	}
 
 	.center {
 		margin: 0 0;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
 		display: flex;
-		position: absolute;
 	}
 </style>

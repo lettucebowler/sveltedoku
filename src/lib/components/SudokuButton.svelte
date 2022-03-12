@@ -16,7 +16,7 @@
 
 <style>
 	button {
-		border-radius: 9px;
+		border-radius: 6px;
 		border: none;
 		transition: 0.1s ease-in-out;
 		cursor: pointer;

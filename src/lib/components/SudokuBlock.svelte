@@ -9,7 +9,7 @@
 
 <style>
 	div {
-		background-color: var(--nord-2);
+		/* background-color: var(--nord-2); */
 		display: grid;
 		grid-gap: 1px;
 	}
@@ -26,7 +26,7 @@
 
 	.board {
 		grid-gap: 3px;
-		padding: 3px;
 		border-radius: 9px;
+		margin: -1px -1px;
 	}
 </style>

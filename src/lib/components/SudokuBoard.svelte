@@ -56,8 +56,7 @@
 
 <style>
 	.container {
-		width: calc(100% - 4px);
-		padding: 2px 2px;
+		width: calc(100% - 8px);
 		margin: auto;
 	}
 </style>

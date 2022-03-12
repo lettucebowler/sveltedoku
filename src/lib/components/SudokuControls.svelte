@@ -45,6 +45,7 @@
 
 <style>
 	.grid {
+		margin: 2px 2px;
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 		box-sizing: border-box;
