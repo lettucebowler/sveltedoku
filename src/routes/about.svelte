@@ -9,7 +9,7 @@
 
 <title>About {$appName}</title>
 <main>
-	<h1>Hello I'm Grant!</h1>
+	<h1>Hello, I'm Grant!</h1>
 	<p>
 		I like Sudoku puzzles. I made this game to give myself a reason to experiment with <a
 			href="https://kit.svelte.dev"
