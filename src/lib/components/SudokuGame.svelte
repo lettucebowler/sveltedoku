@@ -188,11 +188,22 @@
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
-<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
-<SudokuControls
-	on:SudokuMove={(event) => {
-		console.log(`Apply move ${event.detail.num}`);
-		boardList = doMove(board, selectedRow, selectedCol, event.detail.num);
-	}}
-	on:newGame={newGame}
-/>
+<div>
+	<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
+	
+</div>
+<div>
+	<SudokuControls
+		on:SudokuMove={(event) => {
+			boardList = doMove(board, selectedRow, selectedCol, event.detail.num);
+		}}
+		on:newGame={newGame}
+	/>
+</div>
+
+<style>
+	div {
+		padding: 2px 2px
+	}
+</style>
+

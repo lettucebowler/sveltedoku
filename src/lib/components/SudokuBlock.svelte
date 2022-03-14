@@ -26,7 +26,6 @@
 
 	.board {
 		grid-gap: 3px;
-		border-radius: 9px;
-		margin: -1px -1px;
+		aspect-ratio: 1;
 	}
 </style>

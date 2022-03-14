@@ -56,7 +56,7 @@
 
 <style>
 	.container {
-		width: calc(100% - 8px);
-		margin: auto;
+		width: 100%;
+		aspect-ratio: 1;
 	}
 </style>

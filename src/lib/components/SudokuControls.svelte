@@ -45,23 +45,24 @@
 
 <style>
 	.grid {
-		margin: 2px 2px;
+		/* margin: 2px 2px; */
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 		box-sizing: border-box;
+		grid-gap: 4px;
 	}
 
 	.square {
 		aspect-ratio: 1;
 		grid-column: span 1;
 		box-sizing: border-box;
-		padding: 2px 2px;
+		/* padding: 2px 2px; */
 	}
 
 	.wide {
 		aspect-ratio: 5;
 		grid-column: span 5;
-		padding: 2px 2px;
+		/* padding: 2px 2px; */
 		box-sizing: border-box;
 	}
 </style>
