@@ -6,6 +6,6 @@
 </script>
 
 <svelte:head>
-	<title>{`About ${$appName}`}</title>
+	<title>{$appName}</title>
 </svelte:head>
 <SudokuGame {initialGameList} />
