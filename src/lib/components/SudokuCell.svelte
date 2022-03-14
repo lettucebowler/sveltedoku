@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
 	export let number = 0;
-	export let row;
-	export let col;
+	export let row: number;
+	export let col: number;
 	export let selected = false;
 	export let peerCell = false;
 	export let peerDigit = false;
@@ -12,22 +12,24 @@
 	export let initial = false;
 	export let success = false;
 
+	let w;
+
 	const top = row === 0;
 	const bottom = row === order * order - 1;
 	const left = col === 0;
 	const right = col === order * order - 1;
 
 	const getClass = (
-		selected,
-		peerCell,
-		peerDigit,
-		top,
-		right,
-		bottom,
-		left,
-		initial,
-		valid,
-		success
+		selected: boolean,
+		peerCell: boolean,
+		peerDigit: boolean,
+		top: boolean,
+		right: boolean,
+		bottom: boolean,
+		left: boolean,
+		initial: boolean,
+		valid: boolean,
+		success: boolean
 	) => {
 		const classes = [];
 		selected && classes.push('selected');
@@ -81,15 +83,16 @@
 
 <style>
 	div {
-		display: grid;
 		aspect-ratio: 1;
 		display: flex;
 		justify-content: center;
-		font-size: 3rem;
 		align-items: center;
+		font-weight: 700;
+		font-size: 175%;
 		background-color: var(--background-color);
 		color: var(--text-color);
 		text-align: center;
+		height: 100%;
 		cursor: pointer;
 		-webkit-user-select: none; /* Safari */
 		-moz-user-select: none; /* Firefox */

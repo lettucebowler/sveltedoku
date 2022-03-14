@@ -25,7 +25,7 @@
 	}
 
 	.board {
-		grid-gap: 3px;
+		grid-gap: 4px;
 		aspect-ratio: 1;
 	}
 </style>
