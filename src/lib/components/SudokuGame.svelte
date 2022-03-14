@@ -190,7 +190,6 @@
 <svelte:window on:keydown={handleKeyPress} />
 <div>
 	<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
-	
 </div>
 <div>
 	<SudokuControls
@@ -203,7 +202,6 @@
 
 <style>
 	div {
-		padding: 2px 2px
+		padding: 2px 2px;
 	}
 </style>
-
