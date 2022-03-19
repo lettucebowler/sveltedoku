@@ -84,16 +84,16 @@
 <style>
 	div {
 		aspect-ratio: 1;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		display: grid;
+		place-items: center;
 		font-weight: 700;
 		font-size: 175%;
 		background-color: var(--background-color);
 		color: var(--text-color);
 		text-align: center;
-		height: 100%;
 		cursor: pointer;
+		width: 100%;
+		/* height: 100%; */
 		-webkit-user-select: none; /* Safari */
 		-moz-user-select: none; /* Firefox */
 		-ms-user-select: none; /* IE10+/Edge */
@@ -129,19 +129,19 @@
 	}
 
 	.topLeft {
-		border-radius: 6px 0 0 0;
+		border-radius: 12px 0 0 0;
 	}
 
 	.topRight {
-		border-radius: 0 6px 0 0;
+		border-radius: 0px 12px 0 0;
 	}
 
 	.bottomLeft {
-		border-radius: 0 0 0 6px;
+		border-radius: 0 0 0 12px;
 	}
 
 	.bottomRight {
-		border-radius: 0 0 6px 0;
+		border-radius: 0 0 12px 0;
 	}
 
 	.initial {
