@@ -18,15 +18,13 @@
 <svelte:head>
 	<link rel="icon" type="image/png" href="/favicon.png" />
 </svelte:head>
-<body>
-	<PageContentContainer>
-		<Navbar {links} />
-		<slot />
-	</PageContentContainer>
-</body>
+<PageContentContainer>
+	<Navbar {links} />
+	<slot />
+</PageContentContainer>
 
 <style>
-	body {
+	:global(body) {
 		background-color: var(--nord-0);
 		margin: 0px 0px;
 	}

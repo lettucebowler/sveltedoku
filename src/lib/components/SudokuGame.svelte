@@ -6,14 +6,13 @@
 
 	export let order = 3;
 	export let hints = 30;
-	export let initialGameList = generateBoard(hints);
+	export let initialBoard: number[];
 
-	let boardList = initialGameList;
-	let initialBoardList = boardList;
+	let currentBoard = initialBoard;
 	let selectedRow: number;
 	let selectedCol: number;
 
-	$: board = getBoard(boardList, selectedRow, selectedCol);
+	$: board = getBoard(currentBoard, selectedRow, selectedCol);
 
 	const isPeerCell = (
 		row: number,
@@ -73,11 +72,11 @@
 		const col = Math.floor(index % (order * order));
 		const selected = row === selectedRow && col === selectedCol;
 		const peerCell = isPeerCell(row, col, order, selectedRow, selectedCol);
-		const selectedNum = boardList[selectedRow * order * order + selectedCol];
+		const selectedNum = currentBoard[selectedRow * order * order + selectedCol];
 		const peerDigit =
 			number && (row !== selectedRow || col !== selectedCol) && number === selectedNum;
-		const initial = !!initialBoardList[index];
-		const legal = isCellLegal(number, row, col, boardList, order);
+		const initial = !!initialBoard[index];
+		const legal = isCellLegal(number, row, col, currentBoard, order);
 		const success = false;
 		return {
 			number: number ? number.toString() : '',
@@ -129,34 +128,34 @@
 	const handleKeyPress = (event: { key: string }) => {
 		const actions = {
 			0() {
-				boardList = doMove(board, selectedRow, selectedCol, 0);
+				currentBoard = doMove(board, selectedRow, selectedCol, 0);
 			},
 			1() {
-				boardList = doMove(board, selectedRow, selectedCol, 1);
+				currentBoard = doMove(board, selectedRow, selectedCol, 1);
 			},
 			2() {
-				boardList = doMove(board, selectedRow, selectedCol, 2);
+				currentBoard = doMove(board, selectedRow, selectedCol, 2);
 			},
 			3() {
-				boardList = doMove(board, selectedRow, selectedCol, 3);
+				currentBoard = doMove(board, selectedRow, selectedCol, 3);
 			},
 			4() {
-				boardList = doMove(board, selectedRow, selectedCol, 4);
+				currentBoard = doMove(board, selectedRow, selectedCol, 4);
 			},
 			5() {
-				boardList = doMove(board, selectedRow, selectedCol, 5);
+				currentBoard = doMove(board, selectedRow, selectedCol, 5);
 			},
 			6() {
-				boardList = doMove(board, selectedRow, selectedCol, 6);
+				currentBoard = doMove(board, selectedRow, selectedCol, 6);
 			},
 			7() {
-				boardList = doMove(board, selectedRow, selectedCol, 7);
+				currentBoard = doMove(board, selectedRow, selectedCol, 7);
 			},
 			8() {
-				boardList = doMove(board, selectedRow, selectedCol, 8);
+				currentBoard = doMove(board, selectedRow, selectedCol, 8);
 			},
 			9() {
-				boardList = doMove(board, selectedRow, selectedCol, 9);
+				currentBoard = doMove(board, selectedRow, selectedCol, 9);
 			},
 			ArrowUp() {
 				moveSelection(-1, 0);
@@ -182,8 +181,8 @@
 	};
 
 	const newGame = () => {
-		initialBoardList = generateBoard(hints);
-		boardList = initialBoardList;
+		initialBoard = generateBoard(hints);
+		currentBoard = initialBoard;
 	};
 </script>
 
@@ -194,14 +193,14 @@
 <div>
 	<SudokuControls
 		on:SudokuMove={(event) => {
-			boardList = doMove(board, selectedRow, selectedCol, event.detail.num);
+			currentBoard = doMove(board, selectedRow, selectedCol, event.detail.num);
 		}}
 		on:newGame={newGame}
 	/>
 </div>
 
 <style>
-	div {
+	/* div {
 		padding: 2px 2px;
-	}
+	} */
 </style>

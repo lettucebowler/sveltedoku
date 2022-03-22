@@ -53,14 +53,14 @@
 	}
 
 	.square {
-		aspect-ratio: 1;
+		aspect-ratio: 1.1;
 		grid-column: span 1;
 		box-sizing: border-box;
 		/* padding: 2px 2px; */
 	}
 
 	.wide {
-		aspect-ratio: 5;
+		aspect-ratio: 6;
 		grid-column: span 5;
 		/* padding: 2px 2px; */
 		box-sizing: border-box;

@@ -92,8 +92,7 @@
 		color: var(--text-color);
 		text-align: center;
 		cursor: pointer;
-		width: 100%;
-		/* height: 100%; */
+		height: 100%;
 		-webkit-user-select: none; /* Safari */
 		-moz-user-select: none; /* Firefox */
 		-ms-user-select: none; /* IE10+/Edge */

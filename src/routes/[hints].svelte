@@ -3,10 +3,10 @@
 	import '$lib/styles/app.css';
 	import {appName} from '$lib/util/store';
 	export let initialBoard;
-	export let hints;
+    export let hints;
 </script>
 
 <svelte:head>
 	<title>{$appName}</title>
 </svelte:head>
-<SudokuGame {initialBoard}{hints}/>
+<SudokuGame {initialBoard} {hints} />
