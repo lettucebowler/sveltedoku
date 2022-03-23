@@ -3,6 +3,7 @@
 	import type { Cell, CellSelectionEvent } from '$lib/types/types';
 	import SudokuControls from '$lib/components/SudokuControls.svelte';
 	import { generateBoard } from '$lib/util/boardUtils';
+	import Spacing from './Spacing.svelte';
 
 	export let order = 3;
 	export let hints = 30;
@@ -187,9 +188,11 @@
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
+<Spacing />
 <div>
 	<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
 </div>
+<Spacing />
 <div>
 	<SudokuControls
 		on:SudokuMove={(event) => {
@@ -198,9 +201,4 @@
 		on:newGame={newGame}
 	/>
 </div>
-
-<style>
-	/* div {
-		padding: 2px 2px;
-	} */
-</style>
+<Spacing />

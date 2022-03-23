@@ -7,7 +7,11 @@
 	import { appName } from '$lib/util/store';
 </script>
 
-<title>About {$appName}</title>
+<svelte:head>
+	<title>About {$appName}</title>
+	<meta name="description" content="Sudoku game with custom hint value" />
+</svelte:head>
+
 <main>
 	<h1>Hello, I'm Grant!</h1>
 	<p>

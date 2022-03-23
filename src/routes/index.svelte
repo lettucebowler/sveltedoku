@@ -1,12 +1,13 @@
 <script>
 	import SudokuGame from '$lib/components/SudokuGame.svelte';
 	import '$lib/styles/app.css';
-	import {appName} from '$lib/util/store';
+	import { appName } from '$lib/util/store';
 	export let initialBoard;
 	export let hints;
 </script>
 
 <svelte:head>
 	<title>{$appName}</title>
+	<meta name="description" content="Sudoku game" />
 </svelte:head>
-<SudokuGame {initialBoard}{hints}/>
+<SudokuGame {initialBoard} {hints} />

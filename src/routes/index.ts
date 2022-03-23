@@ -1,9 +1,9 @@
 import { generateBoard } from '$lib/util/boardUtils';
 
-export async function get({ params }) {
-    const hints: number = 30;
-    const initialBoard = generateBoard(hints);
-    return {
+export async function get() {
+	const hints = 30;
+	const initialBoard = generateBoard(hints);
+	return {
 		body: {
 			initialBoard,
 			hints

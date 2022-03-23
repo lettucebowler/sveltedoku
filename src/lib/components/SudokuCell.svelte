@@ -12,8 +12,6 @@
 	export let initial = false;
 	export let success = false;
 
-	let w;
-
 	const top = row === 0;
 	const bottom = row === order * order - 1;
 	const left = col === 0;
