@@ -28,7 +28,7 @@
 		initial: boolean,
 		valid: boolean,
 		success: boolean,
-		number: number,
+		number: number
 	) => {
 		const classes = [];
 		number || classes.push('hidden');
@@ -58,7 +58,7 @@
 		initial,
 		valid,
 		success,
-		number,
+		number
 	);
 
 	const dispatch = createEventDispatcher();

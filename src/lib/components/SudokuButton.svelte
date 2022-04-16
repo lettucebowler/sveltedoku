@@ -4,9 +4,7 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<button
-	on:click={() => dispatch('SudokuButtonClick')}
->
+<button on:click={() => dispatch('SudokuButtonClick')}>
 	{buttonText}
 </button>
 

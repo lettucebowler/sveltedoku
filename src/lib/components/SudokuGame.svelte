@@ -3,8 +3,6 @@
 	import type { Cell, CellSelectionEvent } from '$lib/types/types';
 	import SudokuControls from '$lib/components/SudokuControls.svelte';
 	import { generateBoard } from '$lib/util/boardUtils';
-	import Spacing from './Spacing.svelte';
-import { clear_loops } from 'svelte/internal';
 
 	export let order = 3;
 	export let hints = 30;
@@ -110,12 +108,8 @@ import { clear_loops } from 'svelte/internal';
 		if (board[i].initial) {
 			return board.map((cell) => cell.number);
 		}
-		const before = board
-			.filter((cell, index) => index < i)
-			.map((cell) => cell.number);
-		const after = board
-			.filter((cell, index) => index > i)
-			.map((cell) => cell.number);
+		const before = board.filter((cell, index) => index < i).map((cell) => cell.number);
+		const after = board.filter((cell, index) => index > i).map((cell) => cell.number);
 		return [...before, num, ...after];
 	};
 
