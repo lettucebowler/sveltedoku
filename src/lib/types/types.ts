@@ -4,7 +4,7 @@ export type Cell = {
 	success: boolean;
 	peerCell: boolean;
 	peerDigit: boolean;
-	number: string;
+	number: number;
 	row: number;
 	col: number;
 	selected: boolean;

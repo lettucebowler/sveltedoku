@@ -4,6 +4,7 @@
 	import SudokuControls from '$lib/components/SudokuControls.svelte';
 	import { generateBoard } from '$lib/util/boardUtils';
 	import Spacing from './Spacing.svelte';
+import { clear_loops } from 'svelte/internal';
 
 	export let order = 3;
 	export let hints = 30;
@@ -80,7 +81,7 @@
 		const legal = isCellLegal(number, row, col, currentBoard, order);
 		const success = false;
 		return {
-			number: number ? number.toString() : '',
+			number,
 			row,
 			col,
 			selected,
@@ -98,7 +99,7 @@
 		}
 		const boardReal = board.map((c, index) => getCell(c, index, order, selectedRow, selectedCol));
 		const success =
-			boardReal.filter((cell: Cell) => !!cell.legal && cell.number !== '').length ===
+			boardReal.filter((cell: Cell) => !!cell.legal && !!cell.number).length ===
 			order * order * order * order;
 		const validated = boardReal.map((cell: Cell) => ({ ...cell, success }));
 		return validated;
@@ -107,14 +108,14 @@
 	const doMove = (board: Cell[], row: number, col: number, num: number) => {
 		const i = row * order * order + col;
 		if (board[i].initial) {
-			return board.map((cell) => parseInt(cell.number) || 0);
+			return board.map((cell) => cell.number);
 		}
 		const before = board
 			.filter((cell, index) => index < i)
-			.map((cell) => parseInt(cell.number) || 0);
+			.map((cell) => cell.number);
 		const after = board
 			.filter((cell, index) => index > i)
-			.map((cell) => parseInt(cell.number) || 0);
+			.map((cell) => cell.number);
 		return [...before, num, ...after];
 	};
 
@@ -188,11 +189,9 @@
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
-<Spacing />
 <div>
 	<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
 </div>
-<Spacing />
 <div>
 	<SudokuControls
 		on:SudokuMove={(event) => {
@@ -201,4 +200,3 @@
 		on:newGame={newGame}
 	/>
 </div>
-<Spacing />

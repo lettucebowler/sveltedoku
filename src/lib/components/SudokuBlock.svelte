@@ -9,14 +9,13 @@
 
 <style>
 	div {
-		/* background-color: var(--nord-2); */
 		display: grid;
 		grid-gap: 1px;
+		/* place-items: center; */
 	}
 
 	.three {
 		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-rows: 1fr 1fr 1fr;
 	}
 
 	.two {

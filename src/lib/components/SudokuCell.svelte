@@ -27,9 +27,11 @@
 		left: boolean,
 		initial: boolean,
 		valid: boolean,
-		success: boolean
+		success: boolean,
+		number: number,
 	) => {
 		const classes = [];
+		number || classes.push('hidden');
 		selected && classes.push('selected');
 		peerCell && classes.push('peerCell');
 		peerDigit && classes.push('peerDigit');
@@ -55,7 +57,8 @@
 		left,
 		initial,
 		valid,
-		success
+		success,
+		number,
 	);
 
 	const dispatch = createEventDispatcher();
@@ -76,12 +79,11 @@
 </script>
 
 <div on:click={handleClick} class={classString}>
-	{number !== 0 ? number : ''}
+	{number}
 </div>
 
 <style>
 	div {
-		aspect-ratio: 1;
 		display: grid;
 		place-items: center;
 		font-weight: 700;
@@ -90,7 +92,6 @@
 		color: var(--text-color);
 		text-align: center;
 		cursor: pointer;
-		height: 100%;
 		-webkit-user-select: none; /* Safari */
 		-moz-user-select: none; /* Firefox */
 		-ms-user-select: none; /* IE10+/Edge */
@@ -119,6 +120,10 @@
 
 	.valid {
 		color: var(--nord-10);
+	}
+
+	.valid.hidden {
+		color: var(--background-color);
 	}
 
 	.invalid {
