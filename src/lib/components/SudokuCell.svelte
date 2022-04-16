@@ -123,7 +123,7 @@
 	}
 
 	.valid.hidden {
-		color: var(--background-color);
+		color: transparent;
 	}
 
 	.invalid {
