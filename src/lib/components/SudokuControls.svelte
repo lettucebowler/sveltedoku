@@ -31,7 +31,6 @@
 
 <style>
 	.grid {
-		/* margin: 2px 2px; */
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 		box-sizing: border-box;
@@ -43,7 +42,6 @@
 		gap: 8px;
 		flex-flow: column;
 		height: 100%;
-		padding-bottom: 8px;
 		box-sizing: border-box;
 	}
 
