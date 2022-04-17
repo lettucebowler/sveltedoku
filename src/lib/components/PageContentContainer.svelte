@@ -1,20 +1,18 @@
 <div class="center">
-	<div class="page">
+	<main>
 		<slot />
-	</div>
+	</main>
 </div>
 
 <style>
-	.page {
+	main {
 		margin: 0 auto;
-		/* min-width: 600px; */
 		max-width: 800px;
 		width: 100%;
-		box-sizing: border-box;
 		display: flex;
+		box-sizing: border-box;
 		gap: 8px;
 		padding: 0px 8px 8px 8px;
-		justify-content: flex-start;
 		flex-direction: column;
 		height: 100%;
 		flex: 1 1 auto;
@@ -23,7 +21,6 @@
 
 	.center {
 		margin: 0 0;
-		/* display: flex; */
-		height: 100vh; /* flex-direction: column; */
+		height: 100vh;
 	}
 </style>

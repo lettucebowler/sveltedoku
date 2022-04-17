@@ -31,6 +31,7 @@
 		number: number
 	) => {
 		const classes = [];
+		initial && classes.push('initial');
 		number || classes.push('hidden');
 		selected && classes.push('selected');
 		peerCell && classes.push('peerCell');
@@ -39,9 +40,8 @@
 		top && left && classes.push('topLeft');
 		bottom && right && classes.push('bottomRight');
 		bottom && left && classes.push('bottomLeft');
-		!initial && getValidity(initial, valid) && classes.push('valid');
-		!initial && !getValidity(initial, valid) && classes.push('invalid');
-		initial && classes.push('intitial');
+		valid && classes.push('valid');
+		!valid && classes.push('invalid');
 		success && classes.push('success');
 
 		return classes.join(' ');
@@ -69,13 +69,6 @@
 			col
 		});
 	};
-
-	const getValidity = (initial, valid) => {
-		if (initial) {
-			return true;
-		}
-		return valid;
-	};
 </script>
 
 <div on:click={handleClick} class={classString}>
@@ -89,7 +82,7 @@
 		font-weight: 700;
 		font-size: 175%;
 		background-color: var(--background-color);
-		color: var(--text-color);
+		color: var(--nord-10);
 		text-align: center;
 		cursor: pointer;
 		-webkit-user-select: none; /* Safari */
@@ -100,34 +93,6 @@
 
 	div:hover {
 		background-color: var(--nord-13);
-	}
-
-	.selected {
-		background-color: var(--nord-13);
-	}
-
-	.peerCell {
-		background-color: var(--nord-8);
-	}
-
-	.peerDigit {
-		background-color: var(--nord-9);
-	}
-
-	.peerDigit.peerCell.invalid {
-		background-color: var(--nord-15);
-	}
-
-	.valid {
-		color: var(--nord-10);
-	}
-
-	.valid.hidden {
-		color: transparent;
-	}
-
-	.invalid {
-		color: var(--nord-11);
 	}
 
 	.topLeft {
@@ -146,12 +111,40 @@
 		border-radius: 0 0 12px 0;
 	}
 
+	.peerCell {
+		background-color: var(--nord-8);
+	}
+
+	.peerDigit {
+		background-color: var(--nord-9);
+	}
+
 	.initial {
-		color: var(--nord-2);
+		color: var(--nord-2) !important;
+	}
+
+	.hidden {
+		color: transparent;
+	}
+
+	.invalid {
+		color: var(--nord-11);
+	}
+
+	.peerDigit.initial.invalid {
+		background-color: var(--nord-15);
+	}
+
+	.peerDigit.invalid {
+		background-color: var(--nord-15);
 	}
 
 	.success {
 		background-color: var(--nord-14);
+	}
+
+	.selected {
+		background-color: var(--nord-13) !important;
 	}
 
 	.inputselect {

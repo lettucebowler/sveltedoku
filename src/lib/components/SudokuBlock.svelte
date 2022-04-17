@@ -11,7 +11,6 @@
 	div {
 		display: grid;
 		grid-gap: 1px;
-		/* place-items: center; */
 	}
 
 	.three {

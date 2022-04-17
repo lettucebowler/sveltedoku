@@ -1,20 +1,21 @@
-<script>
+<script lang="ts">
 	import SudokuCell from '$lib/components/SudokuCell.svelte';
 	import SudokuBlock from '$lib/components/SudokuBlock.svelte';
+	import type { Cell } from '$lib/types/types';
 
 	export let order = 3;
-	export let board;
+	export let board: Cell[];
 
 	$: chunks = board ? getChunks(board) : [];
 
-	const getChunk = (row, col, order) => {
+	const getChunk = (row: number, col: number, order: number) => {
 		const trunk = Math.floor(row / order);
 		const lane = Math.floor(col / order);
 		const chunk = trunk * order + lane;
 		return chunk;
 	};
 
-	const getChunks = (board) => {
+	const getChunks = (board: Cell[]) => {
 		const b =
 			board &&
 			board.reduce((all, one) => {

@@ -14,69 +14,14 @@
 
 	$: board = getBoard(currentBoard, selectedRow, selectedCol);
 
-	const isPeerCell = (
-		row: number,
-		col: number,
-		order: number,
-		selectedRow: number,
-		selectedCol: number
-	) => {
-		const isSameRow = row === selectedRow;
-		const isSameCol = col === selectedCol;
-		const isSelected = isSameRow && isSameCol;
-		const isSameTrunk = Math.floor(row / order) === Math.floor(selectedRow / order);
-		const isSameLane = Math.floor(col / order) === Math.floor(selectedCol / order);
-		const isSameBlock = isSameTrunk && isSameLane;
-		return !isSelected && (isSameRow || isSameCol || isSameBlock);
-	};
-
-	const isCellLegal = (
-		number: number,
-		row: number,
-		col: number,
-		board: number[],
-		order: number
-	) => {
-		const lane = Math.floor(row / order);
-		const trunk = Math.floor(col / order);
-		const rowLegal =
-			!number ||
-			board.filter((num, index) => {
-				const fRow = Math.floor(index / order / order);
-				return row == fRow && board[index] === number;
-			}).length <= 1;
-		const colLegal =
-			!number ||
-			board.filter((num, index) => {
-				const fCol = index % (order * order);
-				return col == fCol && board[index] === number;
-			}).length <= 1;
-		const blockLegal =
-			!number ||
-			board.filter((num, index) => {
-				const fTrunk = Math.floor(index / order / order / order);
-				const fLane = Math.floor((index % (order * order)) / order);
-				return lane === fLane && trunk === fTrunk && board[index] === number;
-			}).length <= 1;
-		return rowLegal && colLegal && blockLegal;
-	};
-
-	const getCell = (
-		number: number,
-		index: number,
-		order: number,
-		selectedRow: number,
-		selectedCol: number
-	): Cell => {
+	const getCell = (number: number, index: number, order: number): Cell => {
 		const row = Math.floor(index / (order * order));
 		const col = Math.floor(index % (order * order));
-		const selected = row === selectedRow && col === selectedCol;
-		const peerCell = isPeerCell(row, col, order, selectedRow, selectedCol);
-		const selectedNum = currentBoard[selectedRow * order * order + selectedCol];
-		const peerDigit =
-			number && (row !== selectedRow || col !== selectedCol) && number === selectedNum;
+		const selected = false;
+		const peerCell = false;
+		const peerDigit = false;
 		const initial = !!initialBoard[index];
-		const legal = isCellLegal(number, row, col, currentBoard, order);
+		const legal = true;
 		const success = false;
 		return {
 			number,
@@ -91,15 +36,111 @@
 		};
 	};
 
+	const getDuplicateLocations = (locations: { num: number; col: number; row: number }[][][]) =>
+		locations
+			.flat()
+			.filter((l: { num: number; col: number; row: number }[]) => l.length > 1)
+			.flat();
+
+	const getIllegalLocations = (board: Cell[]) => {
+		const rows = Array(9)
+			.fill(0)
+			.map(() =>
+				Array(10)
+					.fill(0)
+					.map(() => [])
+			);
+		const cols = JSON.parse(JSON.stringify(rows));
+		const blocks = JSON.parse(JSON.stringify(rows));
+
+		// for each row, column, and block:
+		//     for each valid number in [0..0]:
+		//         get list of locations that contain the number
+		board.forEach((c: Cell, index: number) => {
+			if (!c.number) {
+				return;
+			}
+
+			const row = Math.floor(index / (order * order));
+			const col = Math.floor(index % (order * order));
+			const lane = Math.floor(row / order);
+			const trunk = Math.floor(col / order);
+			const block = lane * order + trunk;
+			rows[row][c.number] = rows[row][c.number].concat({ num: c.number, row, col });
+			cols[col][c.number] = cols[col][c.number].concat({ num: c.number, row, col });
+			blocks[block][c.number] = blocks[block][c.number].concat({ num: c.number, row, col });
+		});
+
+		const duplicateLocations = [
+			...new Set(
+				[
+					...getDuplicateLocations(rows),
+					...getDuplicateLocations(cols),
+					...getDuplicateLocations(blocks)
+				].map((c) => c.row * order * order + c.col)
+			)
+		];
+		return duplicateLocations;
+	};
+
+	const getPeerCellLocations = (row: number, col: number) => {
+		if (isNaN(row) || isNaN(col)) {
+			return [];
+		}
+
+		const rowIndices = Array.from(Array(order * order).keys()).map(
+			(col) => row * order * order + col
+		);
+		const colIndices = Array.from(Array(order * order).keys()).map(
+			(row) => col + row * order * order
+		);
+
+		const trunkRoot = Math.floor(col / order) * order;
+		const laneRoot = Math.floor(row / order) * order;
+		const blockIndices = [0, 1, 2, 9, 10, 11, 18, 19, 20].map(
+			(offset) => offset + (laneRoot * order * order + trunkRoot)
+		);
+		const peerCellLocations = [...new Set([...rowIndices, ...colIndices, ...blockIndices])].sort(
+			(a, b) => (a > b ? 1 : -1)
+		);
+		return peerCellLocations;
+	};
+
+	const getPeerDigitLocations = (board: number[], selectedNum: number) => {
+		if (isNaN(selectedRow) || isNaN(selectedCol)) {
+			return [];
+		}
+		return board
+			.map((number: number, index: number) => {
+				console.log(number);
+				console.log(number === selectedNum);
+				if (!!number && number === selectedNum) {
+					return index;
+				}
+			})
+			.filter(Boolean);
+	};
+
 	const getBoard = (board: number[], selectedRow: number, selectedCol: number): Cell[] => {
 		if (!board) {
 			return null;
 		}
-		const boardReal = board.map((c, index) => getCell(c, index, order, selectedRow, selectedCol));
-		const success =
-			boardReal.filter((cell: Cell) => !!cell.legal && !!cell.number).length ===
-			order * order * order * order;
-		const validated = boardReal.map((cell: Cell) => ({ ...cell, success }));
+		let boardReal = board.map((c, index) => getCell(c, index, order));
+		const illegalLocations = getIllegalLocations(boardReal);
+		const success = !illegalLocations.length && !boardReal.some((c) => !c.number);
+		const peerCellLocations = getPeerCellLocations(selectedRow, selectedCol);
+		const selectedIndex = selectedRow * order * order + selectedCol;
+		const selectedNum = board[selectedIndex];
+		const peerDigitLocations = getPeerDigitLocations(board, selectedNum);
+
+		const validated = boardReal.map((cell: Cell, index) => ({
+			...cell,
+			success,
+			peerCell: peerCellLocations.includes(index),
+			peerDigit: peerDigitLocations.includes(index),
+			legal: !illegalLocations.includes(index),
+			selected: index === selectedIndex
+		}));
 		return validated;
 	};
 
@@ -108,8 +149,8 @@
 		if (board[i].initial) {
 			return board.map((cell) => cell.number);
 		}
-		const before = board.filter((cell, index) => index < i).map((cell) => cell.number);
-		const after = board.filter((cell, index) => index > i).map((cell) => cell.number);
+		const before = board.filter((cell, index) => !!cell && index < i).map((cell) => cell.number);
+		const after = board.filter((cell, index) => !!cell && index > i).map((cell) => cell.number);
 		return [...before, num, ...after];
 	};
 
@@ -183,7 +224,7 @@
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
-<div>
+<div class="big">
 	<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
 </div>
 <div>
@@ -194,3 +235,10 @@
 		on:newGame={newGame}
 	/>
 </div>
+
+<style>
+	.big {
+		margin: auto auto;
+		width: 100%;
+	}
+</style>

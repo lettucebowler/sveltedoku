@@ -12,7 +12,7 @@
 	<meta name="description" content="Sudoku game with custom hint value" />
 </svelte:head>
 
-<main>
+<div class="card">
 	<h1>Hello, I'm Grant!</h1>
 	<p>
 		I like Sudoku puzzles. I made this game to give myself a reason to experiment with <a
@@ -21,18 +21,18 @@
 		>. Code for this project can be found
 		<a target="_blank" href="https://github.com/lettucebowler/sveltedoku">here</a>.
 	</p>
-</main>
+</div>
 
 <style>
-	main {
+	.card {
 		justify-content: start;
 		flex-direction: column;
 		display: flex;
 		padding: 0 30px;
 		text-align: center;
-		min-height: 50vh;
 		color: var(--nord-4);
-		height: 95vh;
+		border-radius: 12px;
+		background-color: var(--nord-1);
 	}
 
 	h1 {

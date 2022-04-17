@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import SudokuButton from '$lib/components/SudokuButton.svelte';
 	import { createEventDispatcher } from 'svelte';
 
@@ -10,7 +10,7 @@
 		{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] as move}
 			<div class="square">
 				<SudokuButton
-					buttonText={move === 0 ? 'X' : move}
+					buttonText={move === 0 ? 'X' : move.toString()}
 					on:SudokuButtonClick={() =>
 						dispatch('SudokuMove', {
 							num: move
