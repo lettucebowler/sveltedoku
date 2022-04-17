@@ -112,8 +112,6 @@
 		}
 		return board
 			.map((number: number, index: number) => {
-				console.log(number);
-				console.log(number === selectedNum);
 				if (!!number && number === selectedNum) {
 					return index;
 				}
