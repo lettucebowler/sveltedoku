@@ -12,9 +12,11 @@
 	button {
 		border-radius: 6px;
 		border: none;
+		padding: 6px;
 		transition: 0.1s ease-in-out;
 		cursor: pointer;
-		display: inline;
+		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		font-family: inherit;
