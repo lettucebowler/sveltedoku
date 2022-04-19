@@ -3,6 +3,7 @@
 		<slot />
 	</main>
 </div>
+
 <style>
 	main {
 		position: relative;

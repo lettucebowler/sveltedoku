@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	export let links: { path: string; name: string }[] = [];
 </script>
+
 <nav>
 	{#each links as link}
 		<a
@@ -12,6 +13,7 @@
 		>
 	{/each}
 </nav>
+
 <style>
 	a {
 		color: var(--nord-6);

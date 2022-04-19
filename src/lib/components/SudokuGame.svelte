@@ -241,6 +241,5 @@
 		margin: auto auto;
 		width: 100%;
 		max-width: min(100%, 65vh);
-
 	}
 </style>
