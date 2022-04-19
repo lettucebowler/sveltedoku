@@ -10,7 +10,7 @@
 
 <style>
 	button {
-		border-radius: 12px;
+		border-radius: 6px;
 		border: none;
 		transition: 0.1s ease-in-out;
 		cursor: pointer;
@@ -19,7 +19,7 @@
 		justify-content: center;
 		font-family: inherit;
 		min-height: 50px;
-		height: calc(100%);
+		height: min(100%, calc((42vh - 32px) / 3));
 		width: calc(100%);
 		font-size: 2.5rem;
 		background: var(--nord-3);

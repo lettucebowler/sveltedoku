@@ -34,26 +34,26 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 		box-sizing: border-box;
-		gap: 8px;
+		gap: 4px;
 	}
 
 	.flexy {
 		display: flex;
 		gap: 8px;
 		flex-flow: column;
-		height: 100%;
+		justify-content: flex-end;
+		height: min(100%, calc(42vh - 16px));
 		box-sizing: border-box;
 	}
 
 	.square {
 		display: flex;
+		flex-direction: column;
 		flex: 1 1 auto;
-		aspect-ratio: 1.1;
 	}
 
 	.wide {
 		grid-column: span 5;
 		flex: 1 1 auto;
-		aspect-ratio: 6;
 	}
 </style>

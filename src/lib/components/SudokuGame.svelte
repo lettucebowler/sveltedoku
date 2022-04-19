@@ -236,7 +236,11 @@
 
 <style>
 	.big {
+		display: flex;
+		flex: 1 1 auto;
 		margin: auto auto;
 		width: 100%;
+		max-width: min(100%, 65vh);
+
 	}
 </style>
