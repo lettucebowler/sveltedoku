@@ -33,7 +33,7 @@
 		const classes = [];
 		initial && classes.push('initial');
 		number || classes.push('hidden');
-		selected && classes.push('selected');
+		selected && !success && classes.push('selected');
 		peerCell && classes.push('peerCell');
 		peerDigit && classes.push('peerDigit');
 		top && right && classes.push('topRight');
@@ -149,5 +149,9 @@
 
 	.inputselect {
 		caret-color: transparent;
+	}
+
+	.success:hover {
+		background-color: var(--nord-14);
 	}
 </style>
