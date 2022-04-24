@@ -10,4 +10,16 @@
 	<title>{$appName}</title>
 	<meta name="description" content="Sudoku game" />
 </svelte:head>
-<SudokuGame {initialBoard} {hints} />
+<main>
+	<SudokuGame {initialBoard} {hints} />
+</main>
+
+<style>
+	main {
+		display: flex;
+		justify-content: space-between;
+		gap: 8px;
+		flex-direction: column;
+		flex: 1 1 auto;
+	}
+</style>
