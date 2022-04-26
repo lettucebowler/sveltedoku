@@ -15,10 +15,9 @@
 <div class="card">
 	<h1>Hello, I'm Grant!</h1>
 	<p>
-		I like Sudoku puzzles and I like learning new things. I made this game to give myself a reason to experiment with <a
-			href="https://kit.svelte.dev"
-			target="_blank">svelte-kit</a
-		>. Code available on
+		I like Sudoku puzzles and I like learning new things. I made this game to give myself a reason
+		to experiment with <a href="https://kit.svelte.dev" target="_blank">svelte-kit</a>. Code
+		available on
 		<a target="_blank" href="https://github.com/lettucebowler/sveltedoku">Github</a>.
 	</p>
 </div>
