@@ -2,22 +2,21 @@
   "0 debug pnpm:scope": {
     "selected": 1
   },
-  "1 info pnpm": {
-    "err": {
-      "name": "Error",
-      "message": "not found: instlal",
-      "code": "ENOENT",
-      "stack": "Error: not found: instlal\n    at getNotFoundError (/home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:41440:51)\n    at Function.whichSync [as sync] (/home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:41517:13)\n    at getCommandAbsolutePathSync (/home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:43082:44)\n    at default_1 (/home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:43091:32)\n    at /home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:179675:39"
-    }
-  },
-  "2 error pnpm": {
-    "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
-    "prefix": "/home/lettucebowler/repo/sudoku-svelte",
+  "1 error pnpm": {
+    "code": "ELIFECYCLE",
+    "errno": "ENOENT",
+    "syscall": "spawn",
+    "file": "sh",
+    "pkgid": "sudoku-svelte@0.0.1",
+    "stage": "dev",
+    "script": "svelte-kit dev --host 0.0.0.0 --port 3001",
+    "pkgname": "sudoku-svelte",
     "err": {
       "name": "pnpm",
-      "message": "not found: instlal",
-      "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
-      "stack": "Error: not found: instlal\n    at getNotFoundError (/home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:41440:51)\n    at Function.whichSync [as sync] (/home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:41517:13)\n    at getCommandAbsolutePathSync (/home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:43082:44)\n    at default_1 (/home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:43091:32)\n    at /home/lettucebowler/.nvm/versions/node/v17.3.0/lib/node_modules/pnpm/dist/pnpm.cjs:179675:39"
+      "message": "sudoku-svelte@0.0.1 dev: `svelte-kit dev --host 0.0.0.0 --port 3001`\nspawn ENOENT",
+      "code": "ELIFECYCLE",
+      "stack": "pnpm: sudoku-svelte@0.0.1 dev: `svelte-kit dev --host 0.0.0.0 --port 3001`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/home/lettucebowler/.local/share/pnpm/global/5/.pnpm/pnpm@7.1.0/node_modules/pnpm/dist/pnpm.cjs:93448:22)\n    at ChildProcess.emit (node:events:527:28)\n    at maybeClose (node:internal/child_process:1090:16)\n    at ChildProcess._handle.onexit (node:internal/child_process:302:5)"
     }
-  }
+  },
+  "2 warn pnpm:global": " Local package.json exists, but node_modules missing, did you mean to install?"
 }
