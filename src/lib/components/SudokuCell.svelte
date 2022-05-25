@@ -8,7 +8,6 @@
 	export let peerCell = false;
 	export let peerDigit = false;
 	export let valid = true;
-	export let order = 3;
 	export let initial = false;
 	export let success = false;
 
