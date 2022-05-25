@@ -12,19 +12,10 @@
 	export let initial = false;
 	export let success = false;
 
-	const top = row === 0;
-	const bottom = row === order * order - 1;
-	const left = col === 0;
-	const right = col === order * order - 1;
-
 	const getClass = (
 		selected: boolean,
 		peerCell: boolean,
 		peerDigit: boolean,
-		top: boolean,
-		right: boolean,
-		bottom: boolean,
-		left: boolean,
 		initial: boolean,
 		valid: boolean,
 		success: boolean,
@@ -36,10 +27,6 @@
 		selected && !success && classes.push('selected');
 		peerCell && classes.push('peerCell');
 		peerDigit && classes.push('peerDigit');
-		top && right && classes.push('topRight');
-		top && left && classes.push('topLeft');
-		bottom && right && classes.push('bottomRight');
-		bottom && left && classes.push('bottomLeft');
 		valid && classes.push('valid');
 		!valid && classes.push('invalid');
 		success && classes.push('success');
@@ -47,19 +34,7 @@
 		return classes.join(' ');
 	};
 
-	$: classString = getClass(
-		selected,
-		peerCell,
-		peerDigit,
-		top,
-		right,
-		bottom,
-		left,
-		initial,
-		valid,
-		success,
-		number
-	);
+	$: classString = getClass(selected, peerCell, peerDigit, initial, valid, success, number);
 
 	const dispatch = createEventDispatcher();
 
@@ -93,22 +68,6 @@
 
 	div:hover {
 		background-color: var(--nord-13);
-	}
-
-	.topLeft {
-		border-radius: 12px 0 0 0;
-	}
-
-	.topRight {
-		border-radius: 0px 12px 0 0;
-	}
-
-	.bottomLeft {
-		border-radius: 0 0 0 12px;
-	}
-
-	.bottomRight {
-		border-radius: 0 0 12px 0;
 	}
 
 	.peerCell {

@@ -44,6 +44,8 @@
 		justify-content: flex-end;
 		height: min(100%, calc(42vh - 16px));
 		box-sizing: border-box;
+		border-radius: 21px;
+		overflow: hidden;
 	}
 
 	.square {

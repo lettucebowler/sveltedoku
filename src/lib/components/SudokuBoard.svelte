@@ -60,5 +60,7 @@
 		width: 100%;
 		aspect-ratio: 1;
 		margin: auto;
+		border-radius: 22px;
+		overflow: hidden;
 	}
 </style>

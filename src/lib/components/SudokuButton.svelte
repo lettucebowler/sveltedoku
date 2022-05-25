@@ -10,7 +10,7 @@
 
 <style>
 	button {
-		border-radius: 6px;
+		border-radius: 11px;
 		border: none;
 		padding: 6px;
 		transition: 0.1s ease-in-out;
