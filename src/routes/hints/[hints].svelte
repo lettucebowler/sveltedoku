@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import SudokuGame from '$lib/components/SudokuGame.svelte';
 	import { appName } from '$lib/util/store';
 	export let initialBoard;

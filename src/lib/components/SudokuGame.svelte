@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Cookies from 'js-cookie';
 	import SudokuBoard from '$lib/components/SudokuBoard.svelte';
 	import type { Cell, CellSelectionEvent } from '$lib/types/types';
 	import SudokuControls from '$lib/components/SudokuControls.svelte';
@@ -7,12 +8,22 @@
 	export let order = 3;
 	export let hints = 30;
 	export let initialBoard: number[];
+	export let currentBoard = initialBoard;
 
-	let currentBoard = initialBoard;
 	let selectedRow: number;
 	let selectedCol: number;
 
 	$: board = getBoard(currentBoard, selectedRow, selectedCol);
+	$: saveState(initialBoard, currentBoard);
+
+	const saveState = (initial: number[], current: number[]) => {
+		const state = JSON.stringify({
+			initial: initial,
+			current: current
+		});
+
+		Cookies.set('state', state, { expires: 365 });
+	};
 
 	const getCell = (number: number, index: number, order: number): Cell => {
 		const row = Math.floor(index / (order * order));
@@ -53,9 +64,6 @@
 		const cols = JSON.parse(JSON.stringify(rows));
 		const blocks = JSON.parse(JSON.stringify(rows));
 
-		// for each row, column, and block:
-		//     for each valid number in [0..0]:
-		//         get list of locations that contain the number
 		board.forEach((c: Cell, index: number) => {
 			if (!c.number) {
 				return;
@@ -149,7 +157,9 @@
 		}
 		const before = board.filter((cell, index) => !!cell && index < i).map((cell) => cell.number);
 		const after = board.filter((cell, index) => !!cell && index > i).map((cell) => cell.number);
-		return [...before, num, ...after];
+		const newBoard = [...before, num, ...after];
+
+		return newBoard;
 	};
 
 	const moveSelection = (rowDelta: number, colDelta: number) => {

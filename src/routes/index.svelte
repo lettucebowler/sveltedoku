@@ -2,6 +2,7 @@
 	import SudokuGame from '$lib/components/SudokuGame.svelte';
 	import { appName } from '$lib/util/store';
 	export let initialBoard;
+	export let currentBoard;
 	export let hints;
 </script>
 
@@ -10,7 +11,7 @@
 	<meta name="description" content="Sudoku game" />
 </svelte:head>
 <main>
-	<SudokuGame {initialBoard} {hints} />
+	<SudokuGame {initialBoard} {currentBoard} {hints} />
 </main>
 
 <style>

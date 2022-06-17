@@ -1,11 +1,14 @@
 import { generateBoard } from '$lib/util/boardUtils';
 
-export async function get() {
+export async function get({ params, locals }) {
+	const { state } = locals;
 	const hints = 30;
-	const initialBoard = generateBoard(hints);
+	const initialBoard = state.initial || generateBoard(hints);
+	const currentBoard = state.current || initialBoard;
 	return {
 		body: {
 			initialBoard,
+			currentBoard,
 			hints
 		}
 	};
