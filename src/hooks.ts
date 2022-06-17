@@ -4,7 +4,7 @@ import cookie from 'cookie';
 export async function handle({ event, resolve }) {
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 
-	const state = JSON.parse(cookies.state);
+	const state = JSON.parse(cookies.state || JSON.stringify({}));
 
 	event.locals = { state };
 
