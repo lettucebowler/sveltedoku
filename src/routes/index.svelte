@@ -1,3 +1,7 @@
+<script context="module">
+	export const prerender = false;
+</script>
+
 <script>
 	import SudokuGame from '$lib/components/SudokuGame.svelte';
 	import { appName } from '$lib/util/store';
