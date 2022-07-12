@@ -5,8 +5,8 @@
 <script lang="ts">
 	import SudokuGame from '$lib/components/SudokuGame.svelte';
 	import { appName } from '$lib/util/store';
-	export let initialBoard;
-	export let hints;
+	export let initialBoard: number[];
+	export let hints: number;
 </script>
 
 <svelte:head>
