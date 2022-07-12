@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '$lib/assets/app.css';
 	import PageContentContainer from '$lib/components/PageContentContainer.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
 
