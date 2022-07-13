@@ -10,7 +10,7 @@ const config = {
 			out: 'build',
 			edge: true
 		}),
-		inlineStyleThreshold: 4096
+		inlineStyleThreshold: 4096,
 	}
 };
 
