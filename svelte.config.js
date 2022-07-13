@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-node';
+import adapter from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -8,9 +8,9 @@ const config = {
 	kit: {
 		adapter: adapter({
 			out: 'build',
-			// edge: true
+			edge: true
 		}),
-		inlineStyleThreshold: 4096,
+		inlineStyleThreshold: 4096
 	}
 };
 
