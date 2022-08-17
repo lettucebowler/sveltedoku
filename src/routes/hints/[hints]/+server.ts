@@ -13,7 +13,7 @@ export function GET({ params }) {
 	return new Response('bleh', {
 		headers: {
 			location: '/',
-			'set-cookie': `sudokuState=${JSON.stringify(state)}; Path=/; HttpOnly; Secure; SameSite=None`
+			'set-cookie': `sudokuState=${JSON.stringify(state)}; Path=/; HttpOnly; SameSite=none; secure`
 		},
 		status: 302
 	});

@@ -4,6 +4,7 @@
 	import type { Cell, CellSelectionEvent } from '$lib/types/types';
 	import SudokuControls from '$lib/components/SudokuControls.svelte';
 	import { generateBoard } from '$lib/util/boardUtils';
+	import { browser } from '$app/env';
 
 	export let order = 3;
 	export let hints = 30;
@@ -14,6 +15,7 @@
 	let selectedCol: number;
 
 	$: board = getBoard(currentBoard, selectedRow, selectedCol);
+	$: console.log(initialBoard);
 	$: saveState(initialBoard, currentBoard);
 
 	const saveState = (initial: number[], current: number[]) => {
@@ -22,7 +24,7 @@
 			current: current
 		});
 
-		Cookies.set('sudokuState', state, { expires: 365 });
+		Cookies.set('sudokuState', state, { expires: 365, secure: true });
 	};
 
 	const getCell = (number: number, index: number, order: number): Cell => {
