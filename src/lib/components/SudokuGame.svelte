@@ -22,7 +22,7 @@
 			current: current
 		});
 
-		Cookies.set('state', state, { expires: 365 });
+		Cookies.set('sudokuState', state, { expires: 365 });
 	};
 
 	const getCell = (number: number, index: number, order: number): Cell => {
@@ -129,7 +129,7 @@
 
 	const getBoard = (board: number[], selectedRow: number, selectedCol: number): Cell[] => {
 		if (!board) {
-			return null;
+			return [];
 		}
 		let boardReal = board.map((c, index) => getCell(c, index, order));
 		const illegalLocations = getIllegalLocations(boardReal);

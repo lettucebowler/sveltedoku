@@ -1,20 +1,17 @@
-<script context="module">
-	export const prerender = false;
-</script>
-
 <script lang="ts">
 	import SudokuGame from '$lib/components/SudokuGame.svelte';
 	import { appName } from '$lib/util/store';
-	export let initialBoard: number[];
-	export let hints: number;
+
+	export let data: import('./$types').PageData;
+	$: ({ initialBoard, currentBoard, hints } = data);
 </script>
 
 <svelte:head>
 	<title>{$appName}</title>
-	<meta name="description" content="Sudoku game with custom hint value" />
+	<meta name="description" content="Sudoku game" />
 </svelte:head>
 <main>
-	<SudokuGame {initialBoard} {hints} />
+	<SudokuGame {initialBoard} {currentBoard} {hints} />
 </main>
 
 <style>
