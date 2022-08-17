@@ -15,7 +15,6 @@
 	let selectedCol: number;
 
 	$: board = getBoard(currentBoard, selectedRow, selectedCol);
-	$: console.log(initialBoard);
 	$: saveState(initialBoard, currentBoard);
 
 	const saveState = (initial: number[], current: number[]) => {
