@@ -10,16 +10,6 @@
 	<title>{$appName}</title>
 	<meta name="description" content="Sudoku game" />
 </svelte:head>
-<main>
+<main class="flex justify-between gap-2 flex-col flex-auto">
 	<SudokuGame {initialBoard} {currentBoard} {hints} />
 </main>
-
-<style>
-	main {
-		display: flex;
-		justify-content: space-between;
-		gap: 8px;
-		flex-direction: column;
-		flex: 1 1 auto;
-	}
-</style>

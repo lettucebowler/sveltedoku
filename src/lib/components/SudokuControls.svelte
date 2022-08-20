@@ -5,8 +5,8 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<div class="flexy">
-	<div class="grid">
+<div class="flex gap-2 flex-col justify-end box-border rounded-2xl overflow-hidden">
+	<div class="grid grid-cols-5 box-border gap-1">
 		{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] as move}
 			<div class="square">
 				<SudokuButton
@@ -18,7 +18,7 @@
 				/>
 			</div>
 		{/each}
-		<div class="wide">
+		<div class="col-span-5">
 			<SudokuButton
 				buttonText="New game"
 				on:SudokuButtonClick={() => {
@@ -28,34 +28,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-		box-sizing: border-box;
-		gap: 4px;
-	}
-
-	.flexy {
-		display: flex;
-		gap: 8px;
-		flex-flow: column;
-		justify-content: flex-end;
-		height: min(100%, calc(42vh - 16px));
-		box-sizing: border-box;
-		border-radius: 21px;
-		overflow: hidden;
-	}
-
-	.square {
-		display: flex;
-		flex-direction: column;
-		flex: 1 1 auto;
-	}
-
-	.wide {
-		grid-column: span 5;
-		flex: 1 1 auto;
-	}
-</style>

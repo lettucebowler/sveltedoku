@@ -55,7 +55,7 @@
 			.flat();
 
 	const getIllegalLocations = (board: Cell[]) => {
-		const rows = Array(9)
+		const rows: { num: number; row: number; col: number }[][][] = Array(9)
 			.fill(0)
 			.map(() =>
 				Array(10)
@@ -202,22 +202,53 @@
 			},
 			9() {
 				currentBoard = doMove(board, selectedRow, selectedCol, 9);
-			},
-			ArrowUp() {
-				moveSelection(-1, 0);
-			},
-			ArrowDown() {
-				moveSelection(1, 0);
-			},
-			ArrowLeft() {
-				moveSelection(0, -1);
-			},
-			ArrowRight() {
-				moveSelection(0, 1);
 			}
 		};
 		const { key } = event;
-		actions[key] && actions[key]();
+		switch (key) {
+			case '0':
+				currentBoard = doMove(board, selectedRow, selectedCol, 0);
+				break;
+			case '1':
+				currentBoard = doMove(board, selectedRow, selectedCol, 1);
+				break;
+			case '2':
+				currentBoard = doMove(board, selectedRow, selectedCol, 2);
+				break;
+			case '3':
+				currentBoard = doMove(board, selectedRow, selectedCol, 3);
+				break;
+			case '4':
+				currentBoard = doMove(board, selectedRow, selectedCol, 4);
+				break;
+			case '5':
+				currentBoard = doMove(board, selectedRow, selectedCol, 5);
+				break;
+			case '6':
+				currentBoard = doMove(board, selectedRow, selectedCol, 6);
+				break;
+			case '7':
+				currentBoard = doMove(board, selectedRow, selectedCol, 7);
+				break;
+			case '8':
+				currentBoard = doMove(board, selectedRow, selectedCol, 8);
+				break;
+			case '9':
+				currentBoard = doMove(board, selectedRow, selectedCol, 9);
+				break;
+			case 'ArrowUp':
+				moveSelection(-1, 0);
+				break;
+			case 'ArrowDown':
+				moveSelection(1, 0);
+				break;
+			case 'ArrowLeft':
+				moveSelection(0, -1);
+				break;
+			case 'ArrowRight':
+				moveSelection(0, 1);
+				break;
+		}
 	};
 
 	const handleCellSelection = (event: CellSelectionEvent) => {
@@ -233,8 +264,8 @@
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
-<div class="big">
-	<SudokuBoard order={3} {board} on:cellSelection={handleCellSelection} />
+<div class="flex flex-auto m-auto w-full">
+	<SudokuBoard {board} on:cellSelection={handleCellSelection} />
 </div>
 <div>
 	<SudokuControls
@@ -244,13 +275,3 @@
 		on:newGame={newGame}
 	/>
 </div>
-
-<style>
-	.big {
-		display: flex;
-		flex: 1 1 auto;
-		margin: auto auto;
-		width: 100%;
-		max-width: min(100%, 65vh);
-	}
-</style>

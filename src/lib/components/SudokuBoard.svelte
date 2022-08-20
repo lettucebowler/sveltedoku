@@ -38,11 +38,11 @@
 					<td
 						on:click={() => handleClick(cell.row, cell.col)}
 						class={classnames(
-							'grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold text-lg w-full border-polar-100 aspect-square',
+							'grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold text-lg w-full border-polar-100 aspect-square transition ease-in-out duration-150',
 							{
-								'bg-snow-100': !cell.selected && !cell.peerCell,
+								'bg-snow-100': !cell.selected && !cell.peerCell && !cell.peerDigit,
 								'bg-frost-200': cell.peerCell && !cell.selected && !cell.peerDigit,
-								'bg-frost-300': cell.peerDigit && !cell.selected && cell.valid,
+								'bg-frost-300': cell.peerDigit && !cell.selected,
 								'text-aurora-100': !cell.valid && !cell.initial && cell.number !== 0,
 								'bg-aurora-500':
 									cell.peerDigit &&
@@ -61,7 +61,7 @@
 							}
 						)}
 					>
-						{cell.number}
+						{cell.number || ' '}
 					</td>
 				{/each}
 			</tr>

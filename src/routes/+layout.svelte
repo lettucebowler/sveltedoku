@@ -30,9 +30,3 @@
 	<Navbar {links} />
 	<slot />
 </PageContentContainer>
-
-<style>
-	:global(body) {
-		margin: 0px 0px;
-	}
-</style>
