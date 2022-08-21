@@ -4,7 +4,6 @@
 	import type { Cell, CellSelectionEvent } from '$lib/types/types';
 	import SudokuControls from '$lib/components/SudokuControls.svelte';
 	import { generateBoard } from '$lib/util/boardUtils';
-	import { browser } from '$app/env';
 
 	export let order = 3;
 	export let hints = 30;
@@ -119,13 +118,16 @@
 		if (isNaN(selectedRow) || isNaN(selectedCol)) {
 			return [];
 		}
-		return board
-			.map((number: number, index: number) => {
-				if (!!number && number === selectedNum) {
-					return index;
-				}
-			})
-			.filter(Boolean);
+		let locations: number[] = [];
+		board.forEach((num, i) => {
+			if (!num) {
+				return;
+			}
+			if (num === selectedNum) {
+				locations.push(i);
+			}
+		});
+		return locations;
 	};
 
 	const getBoard = (board: number[], selectedRow: number, selectedCol: number): Cell[] => {
@@ -172,38 +174,6 @@
 	};
 
 	const handleKeyPress = (event: { key: string }) => {
-		const actions = {
-			0() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 0);
-			},
-			1() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 1);
-			},
-			2() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 2);
-			},
-			3() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 3);
-			},
-			4() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 4);
-			},
-			5() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 5);
-			},
-			6() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 6);
-			},
-			7() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 7);
-			},
-			8() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 8);
-			},
-			9() {
-				currentBoard = doMove(board, selectedRow, selectedCol, 9);
-			}
-		};
 		const { key } = event;
 		switch (key) {
 			case '0':

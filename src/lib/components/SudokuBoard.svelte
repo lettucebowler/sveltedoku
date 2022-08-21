@@ -15,7 +15,7 @@
 		succes: false
 	});
 
-	const chunk = (arr: any[], size: number) =>
+	const chunk = (arr: number[], size: number) =>
 		Array.from({ length: Math.ceil(arr.length / size) }, (_v, i) =>
 			arr.slice(i * size, i * size + size)
 		);

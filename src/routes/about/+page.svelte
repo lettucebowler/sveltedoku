@@ -1,8 +1,8 @@
 <script>
 	import { appName } from '$lib/util/store';
-	import P from '$lib/components/util/P.svelte';
-	import A from '$lib/components/util/A.svelte';
-	import Card from '$lib/components/util/Card.svelte';
+	import P from '$lib/components/P.svelte';
+	import A from '$lib/components/A.svelte';
+	import Card from '$lib/components/Card.svelte';
 </script>
 
 <svelte:head>
