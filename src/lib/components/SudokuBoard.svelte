@@ -15,10 +15,21 @@
 		succes: false
 	});
 
+	$: console.log(board);
+
 	const chunk = (arr: Cell[], size: number) =>
 		Array.from({ length: Math.ceil(arr.length / size) }, (_v, i) =>
 			arr.slice(i * size, i * size + size)
 		);
+	
+	const distribute = (arr: any, splits: number) => {
+		const groups = new Array(splits).fill([]);
+		arr.forEach((e, i) => {
+			groups[i % splits].push(e);
+		})
+
+		return groups;
+	}
 
 	const handleClick = (row: number, col: number) => {
 		dispatch('cellSelection', {
@@ -29,9 +40,51 @@
 </script>
 
 <table
-	class="w-full aspect-square m-auto rounded-2xl overflow-hidden grid grid-rows-[repeat(9,_1fr)]"
+	class="w-full aspect-square m-auto rounded-2xl grid grid-rows-[repeat(3,_1fr)] gap-[3px]"
 >
-	{#each chunk(board, 27) as lane, i (i)}
+	{#each chunk(board, 27) as lane}
+		<div class="grid grid-cols-[repeat(3,_1fr)] gap-[3px]">
+			{#each chunk(lane, 9) as row}
+				<div class="grid grid-cols-[repeat(3,_1fr)]">
+					{#each chunk(row, 3) as grouping}
+						<div class="grid gap-[1px]">
+							{#each grouping as cell}
+							<td
+							on:click={() => handleClick(cell.row, cell.col)}
+							class={classnames(
+								'grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold text-lg w-full border-polar-100 aspect-square transition ease-in-out duration-150 w-full aspect-square',
+								{
+									'bg-snow-100': !cell.selected && !cell.peerCell && !cell.peerDigit,
+									'bg-frost-200': cell.peerCell && !cell.selected && !cell.peerDigit,
+									'bg-frost-300': cell.peerDigit && !cell.selected,
+									'text-aurora-100': !cell.legal && !cell.initial && cell.number !== 0,
+									'bg-aurora-500':
+										cell.peerDigit &&
+										cell.peerCell &&
+										!cell.selected &&
+										!cell.legal &&
+										!cell.selected,
+									'bg-aurora-300': cell.selected,
+									'text-polar-100': cell.initial,
+									'bg-aurora-400': cell.success,
+									'text-transparent': cell.number === 0,
+									// 'border-r-[3px]': k % 3 === 2 && k < 8,
+									// 'border-r-[1px]': k % 3 !== 2,
+									// 'border-b-[3px]': j % 3 === 2 && i < 2,
+									// 'border-b-[1px]': j % 3 !== 2
+								}
+							)}
+						>
+							{cell.number || ' '}
+						</td>
+							{/each}
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
+	{/each}
+	<!-- {#each chunk(board, 27) as lane, i (i)}
 		{#each chunk(lane, 9) as row, j (`${i}-${j}`)}
 			<tr class="w-full grid grid-cols-[repeat(9,_1fr)]">
 				{#each row as cell, k (`${i}-${j}-${k}`)}
@@ -43,12 +96,12 @@
 								'bg-snow-100': !cell.selected && !cell.peerCell && !cell.peerDigit,
 								'bg-frost-200': cell.peerCell && !cell.selected && !cell.peerDigit,
 								'bg-frost-300': cell.peerDigit && !cell.selected,
-								'text-aurora-100': !cell.valid && !cell.initial && cell.number !== 0,
+								'text-aurora-100': !cell.legal && !cell.initial && cell.number !== 0,
 								'bg-aurora-500':
 									cell.peerDigit &&
 									cell.peerCell &&
 									!cell.selected &&
-									!cell.valid &&
+									!cell.legal &&
 									!cell.selected,
 								'bg-aurora-300': cell.selected,
 								'text-polar-100': cell.initial,
@@ -66,5 +119,5 @@
 				{/each}
 			</tr>
 		{/each}
-	{/each}
+	{/each} -->
 </table>
