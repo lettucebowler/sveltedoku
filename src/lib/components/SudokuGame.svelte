@@ -234,7 +234,7 @@
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
-<div class="flex flex-auto m-auto w-full">
+<div class="flex m-auto w-full">
 	<SudokuBoard {board} on:cellSelection={handleCellSelection} />
 </div>
 <div>
