@@ -15,21 +15,10 @@
 		succes: false
 	});
 
-	$: console.log(board);
-
 	const chunk = (arr: Cell[], size: number) =>
 		Array.from({ length: Math.ceil(arr.length / size) }, (_v, i) =>
 			arr.slice(i * size, i * size + size)
 		);
-
-	const distribute = (arr: any, splits: number) => {
-		const groups = new Array(splits).fill([]);
-		arr.forEach((e, i) => {
-			groups[i % splits].push(e);
-		});
-
-		return groups;
-	};
 
 	const handleClick = (row: number, col: number) => {
 		dispatch('cellSelection', {
@@ -49,7 +38,7 @@
 					<td
 						on:click={() => handleClick(cell.row, cell.col)}
 						class={classnames(
-							'grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold text-lg w-full border-polar-100 aspect-square transition ease-in-out duration-150',
+							'grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold w-full border-polar-100 aspect-square transition ease-in-out duration-150 text-xl',
 							{
 								'bg-snow-100': !cell.selected && !cell.peerCell,
 								'bg-frost-200': cell.peerCell && !cell.selected && !cell.peerDigit,
