@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import classnames from 'classnames';
 	export let links: { path: string; name: string }[] = [];
 
 	const linkStyle =
@@ -12,7 +11,8 @@
 		<a
 			data-sveltekit-prefetch
 			href={link.path}
-			class={classnames(linkStyle, { 'bg-polar-300': $page.url.pathname === link.path })}
+			class="text-snow-300 text-3xl text-center pt-1 pb-1 pl-2 pr-2 box-border grid place-items-center h-12 rounded-md hover:bg-polar-300 active:bg-polar-200 transition ease-in-out duration-150"
+			class:bg-polar-300={$page.url.pathname === link.path}
 		>
 			{link.name}
 		</a>

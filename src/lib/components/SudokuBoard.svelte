@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Cell } from '$lib/types/types';
-	import classnames from 'classnames';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -26,6 +25,9 @@
 			col
 		});
 	};
+
+	const staticClasses =
+		'grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold w-full border-polar-100 aspect-square transition ease-in-out duration-150 text-xl';
 </script>
 
 <table
@@ -37,28 +39,24 @@
 				{#each row as cell, k (`${i}-${j}-${k}`)}
 					<td
 						on:click={() => handleClick(cell.row, cell.col)}
-						class={classnames(
-							'grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold w-full border-polar-100 aspect-square transition ease-in-out duration-150 text-xl',
-							{
-								'bg-snow-100': !cell.selected && !cell.peerCell,
-								'bg-frost-200': cell.peerCell && !cell.selected && !cell.peerDigit,
-								'text-aurora-100': !cell.legal && !cell.initial && cell.number !== 0,
-								'bg-aurora-500':
-									cell.peerDigit &&
-									cell.peerCell &&
-									!cell.selected &&
-									!cell.legal &&
-									!cell.selected,
-								'bg-aurora-300': cell.selected,
-								'text-polar-100': cell.initial,
-								'bg-aurora-400': cell.success,
-								'text-transparent': cell.number === 0,
-								'border-r-[3px]': k % 3 === 2 && k < 8,
-								'border-r-[1px]': k % 3 !== 2,
-								'border-b-[3px]': j % 3 === 2 && i < 2,
-								'border-b-[1px]': j % 3 !== 2
-							}
-						)}
+						class="grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold w-full border-polar-100 aspect-square transition ease-in-out duration-150 text-xl"
+						class:text-frost-400={cell.legal && !cell.initial && cell.number !== 0}
+						class:bg-snow-100={!cell.selected && !cell.peerCell}
+						class:bg-frost-200={cell.peerCell && !cell.selected && !cell.peerDigit}
+						class:text-aurora-100={!cell.legal && !cell.initial && cell.number !== 0}
+						class:bg-aurora-500={cell.peerDigit &&
+							cell.peerCell &&
+							!cell.selected &&
+							!cell.legal &&
+							!cell.selected}
+						class:bg-aurora-300={cell.selected}
+						class:text-polar-100={cell.initial}
+						class:bg-aurora-400={cell.success}
+						class:text-transparent={cell.number === 0}
+						class:border-r-[3px]={k % 3 === 2 && k < 8}
+						class:border-r-[1px]={k % 3 !== 2}
+						class:border-b-[3px]={j % 3 === 2 && i < 2}
+						class:border-b-[1px]={j % 3 !== 2}
 					>
 						{cell.number || ' '}
 					</td>
