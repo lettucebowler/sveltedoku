@@ -92,7 +92,7 @@
 	};
 
 	const getPeerCellLocations = (row: number, col: number) => {
-		if (isNaN(row) || isNaN(col)) {
+		if (isNaN(row) || isNaN(col) || row < 0 || col < 0) {
 			return [];
 		}
 
@@ -230,6 +230,8 @@
 	const newGame = () => {
 		initialBoard = generateBoard(hints);
 		currentBoard = initialBoard;
+		selectedCol = -1;
+		selectedRow = -1;
 	};
 </script>
 
