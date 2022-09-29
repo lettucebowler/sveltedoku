@@ -11,7 +11,7 @@
 </svelte:head>
 
 <Card>
-	<h1 class="text-6xl m-0 font-bold text-center">Hello, I'm Grant!</h1>
+	<h1 class="m-0 text-center text-6xl font-bold">Hello, I'm Grant!</h1>
 	<P>
 		I like Sudoku puzzles and I like learning new things. I made this game to give myself a reason
 		to experiment with <a href="https://kit.svelte.dev" target="_blank">svelte-kit</a>. Code

@@ -5,7 +5,7 @@
 </script>
 
 <button
-	class="rounded-lg border-none p-1.5 duration-[0.1s] cursor-pointer text-snow-300 grid place-items-center text-2xl bg-polar-400 w-full min-h-[3rem] hover:bg-polar-300 transition ease-in-out duration-150 active:bg-polar-200"
+	class="grid min-h-[3rem] w-full cursor-pointer place-items-center rounded-lg border-none bg-polar-400 p-1.5 text-2xl text-snow-300 transition duration-[0.1s] duration-150 ease-in-out hover:bg-polar-300 active:bg-polar-200"
 	on:click={() => dispatch('SudokuButtonClick')}
 >
 	{buttonText}

@@ -31,15 +31,15 @@
 </script>
 
 <table
-	class="w-full aspect-square m-auto rounded-2xl overflow-hidden grid grid-rows-[repeat(9,_1fr)]"
+	class="m-auto grid aspect-square w-full grid-rows-[repeat(9,_1fr)] overflow-hidden rounded-2xl"
 >
 	{#each chunk(board, 27) as lane, i (i)}
 		{#each chunk(lane, 9) as row, j (`${i}-${j}`)}
-			<tr class="w-full grid grid-cols-[repeat(9,_1fr)]">
+			<tr class="grid w-full grid-cols-[repeat(9,_1fr)]">
 				{#each row as cell, k (`${i}-${j}-${k}`)}
 					<td
 						on:click={() => handleClick(cell.row, cell.col)}
-						class="grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold w-full border-polar-100 aspect-square transition ease-in-out duration-150 text-xl"
+						class="grid aspect-square w-full select-none place-items-center border-polar-100 text-xl font-medium font-bold transition duration-150 ease-in-out hover:bg-aurora-300"
 						class:text-frost-400={cell.legal && !cell.initial && cell.number !== 0}
 						class:bg-snow-100={!cell.selected && !cell.peerCell}
 						class:bg-frost-200={cell.peerCell && !cell.selected && !cell.peerDigit}
