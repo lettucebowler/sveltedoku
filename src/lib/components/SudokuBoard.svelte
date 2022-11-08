@@ -25,9 +25,6 @@
 			col
 		});
 	};
-
-	const staticClasses =
-		'grid place-items-center select-none font-medium hover:bg-aurora-300 font-bold w-full border-polar-100 aspect-square transition ease-in-out duration-150 text-xl';
 </script>
 
 <table
