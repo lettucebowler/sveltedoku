@@ -1,5 +1,7 @@
 import { generateBoard } from '$lib/util/boardUtils';
 
+export const prerender = false;
+
 export async function load({ locals }) {
 	const { state } = locals;
 	const hints = 30;

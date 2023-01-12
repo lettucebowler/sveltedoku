@@ -236,8 +236,10 @@
 </script>
 
 <svelte:window on:keydown={handleKeyPress} />
-<div class="m-auto flex w-full">
-	<SudokuBoard {board} on:cellSelection={handleCellSelection} />
+<div class="m-auto flex aspect-square max-w-[min(760px,_80vh)] flex-[1_1_100%]">
+	<div class="my-auto aspect-square w-full">
+		<SudokuBoard {board} on:cellSelection={handleCellSelection} />
+	</div>
 </div>
 <div>
 	<SudokuControls

@@ -37,7 +37,7 @@
 					<td class="p-0">
 						<button
 							on:click={() => handleClick(cell.row, cell.col)}
-							class="grid aspect-square w-full select-none place-items-center border-polar-100 text-xl font-medium font-bold hover:bg-aurora-300"
+							class="grid aspect-square w-full select-none place-items-center border-charade-900 text-xl font-medium font-bold hover:bg-aurora-300"
 							class:text-frost-400={cell.legal && !cell.initial && cell.number !== 0}
 							class:bg-snow-100={!cell.selected && !cell.peerCell}
 							class:bg-frost-200={cell.peerCell && !cell.selected && !cell.peerDigit}
@@ -48,7 +48,7 @@
 								!cell.legal &&
 								!cell.selected}
 							class:bg-aurora-300={cell.selected}
-							class:text-polar-100={cell.initial}
+							class:text-charade-900={cell.initial}
 							class:bg-aurora-400={cell.success}
 							class:text-transparent={cell.number === 0}
 							class:border-r-[3px]={k % 3 === 2 && k < 8}

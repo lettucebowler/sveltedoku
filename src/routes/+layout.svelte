@@ -26,14 +26,17 @@
 	<link rel="mask-icon" href={safariPinnedTabIcon} color="#a3be8c" />
 </svelte:head>
 
-<PageContentContainer>
+<div
+	class="mx-auto box-border flex flex max-h-[100dvh] w-full max-w-screen-md flex-auto flex-col gap-2 p-1"
+>
 	<Navbar {links} />
-	<slot />
-</PageContentContainer>
+	<div class="flex flex-auto flex-col items-center">
+		<slot />
+	</div>
+</div>
 
 <style>
 	:global(body) {
-		background-color: var(--nord-0);
 		margin: 0px 0px;
 		display: flex;
 		flex-direction: column;
@@ -49,22 +52,5 @@
 		height: 100%;
 		min-height: 100%;
 		overflow-y: overlay;
-	}
-
-	:global(::-webkit-scrollbar) {
-		width: 16px;
-		height: 1em;
-	}
-
-	:global(::-webkit-scrollbar-track) {
-		background: transparent;
-		border-radius: 100vw;
-		margin-block: 4px;
-	}
-
-	:global(::-webkit-scrollbar-thumb) {
-		background: #4c566a;
-		border: 0.25em solid #2e3440;
-		border-radius: 100vw;
 	}
 </style>
