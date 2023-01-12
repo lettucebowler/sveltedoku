@@ -57,8 +57,6 @@
 					{number}
 				</button>
 			{/each}
-		</form>
-		<form class="grid w-full grid-cols-5 gap-2" method="post" use:enhance>
 			{#each [6, 7, 8, 9, 0] as number}
 				<button formaction={`?/number&number=${number}`} class="aspect-[3/2] bg-aurora-300">
 					{number || 'X'}

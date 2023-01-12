@@ -29,7 +29,7 @@
 </svelte:head>
 
 <div
-	class="mx-auto box-border flex flex max-h-[calc(100dvh_-_8px)] w-full max-w-screen-md flex-auto flex-col gap-2 p-1"
+	class="mx-auto box-border flex flex max-h-[100dvh] w-full max-w-screen-md flex-auto flex-col gap-2 p-1"
 >
 	<Navbar {links} />
 	<div class="box-border flex w-full flex-auto flex-col items-center">

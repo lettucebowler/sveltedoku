@@ -86,5 +86,14 @@ export const actions: Actions = {
 		return {
 			message: ''
 		};
+	},
+	newgame: async (event) => {
+		event.cookies.delete('selectedRow');
+		event.cookies.delete('selectedCol');
+		event.cookies.delete('board');
+		event.cookies.delete('moves');
+		return {
+			message: ''
+		};
 	}
 };
