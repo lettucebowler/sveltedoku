@@ -1,11 +1,11 @@
 <script lang="ts">
 	import '$lib/assets/app.css';
-	import PageContentContainer from '$lib/components/PageContentContainer.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import smallFavicon from '$lib/assets/favicon-16x16.png';
 	import bigFavicon from '$lib/assets/favicon-32x32.png';
 	import appleTouchIcon from '$lib/assets/apple-touch-icon.png';
 	import safariPinnedTabIcon from '$lib/assets/safari-pinned-tab.svg';
+	import { appName } from '$lib/util/store';
 
 	const links = [
 		{
@@ -24,13 +24,15 @@
 	<link rel="icon" type="image/png" sizes="32x32" href={bigFavicon} />
 	<link rel="icon" type="image/png" sizes="16x16" href={smallFavicon} />
 	<link rel="mask-icon" href={safariPinnedTabIcon} color="#a3be8c" />
+	<title>{$appName}</title>
+	<meta name="description" content="Sudoku game" />
 </svelte:head>
 
 <div
-	class="mx-auto box-border flex flex max-h-[100dvh] w-full max-w-screen-md flex-auto flex-col gap-2 p-1"
+	class="mx-auto box-border flex flex max-h-[calc(100dvh_-_8px)] w-full max-w-screen-md flex-auto flex-col gap-2 p-1"
 >
 	<Navbar {links} />
-	<div class="flex flex-auto flex-col items-center">
+	<div class="box-border flex w-full flex-auto flex-col items-center">
 		<slot />
 	</div>
 </div>

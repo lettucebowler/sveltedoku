@@ -5,6 +5,9 @@ const config = {
 	plugins: [sveltekit()],
 	build: {
 		assetsInlineLimit: 1024
+	},
+	server: {
+		host: true
 	}
 };
 
