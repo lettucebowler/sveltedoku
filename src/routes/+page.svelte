@@ -1,5 +1,8 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { enhance, type SubmitFunction } from '$app/forms';
+	import { updated } from '$app/stores';
+	import { doMove } from '$lib/util/boardUtils';
+	import Cookies from 'js-cookie';
 
 	export let data: import('./$types').PageData;
 
@@ -25,22 +28,6 @@
 			.sort((a, b) => (a > b ? 1 : -1))
 			.filter((index) => index !== selectedIndex);
 		return peerCellLocations;
-	};
-
-	const getPeerDigitLocations = (board: number[], selectedNum: number) => {
-		if (isNaN(data.selectedRow) || isNaN(data.selectedCol)) {
-			return [];
-		}
-		let locations: number[] = [];
-		board.forEach((num, i) => {
-			if (!num) {
-				return;
-			}
-			if (num === selectedNum) {
-				locations.push(i);
-			}
-		});
-		return locations.filter((location) => location !== data.selectedRow * 9 + data.selectedCol);
 	};
 
 	const getDuplicateLocations = (locations: { num: number; col: number; row: number }[][][]) =>
@@ -86,7 +73,6 @@
 			)
 		];
 		return duplicateLocations;
-		// .filter((location) => location !== data.selectedRow * 9 + data.selectedCol);
 	};
 
 	$: peerCellLocations = getPeerCellLocations(data.selectedRow, data.selectedCol, 3);
@@ -96,18 +82,67 @@
 		}
 		return data.moves[i];
 	});
-	// $: peerDigitLocations = getPeerDigitLocations(boardWithMovesApplied, boardWithMovesApplied[data.selectedRow * 9 + data.selectedCol]);
 	$: illegalLocations = getIllegalLocations(boardWithMovesApplied);
 	$: success = !illegalLocations.length && !boardWithMovesApplied.some((c) => !c);
-	$: console.log(illegalLocations);
+
+	const enhanceNumberSubmit: SubmitFunction = (event) => {
+		const number = parseInt(event.action.searchParams.get('number') || '');
+		let updatedMoves = data.moves;
+		try {
+			updatedMoves = doMove(
+				data.board,
+				data.moves,
+				data.selectedRow * 9 + data.selectedCol,
+				number
+			);
+		} catch (e) {
+			updatedMoves = data.moves;
+		}
+
+		data.moves = updatedMoves;
+		Cookies.set('moves', JSON.stringify(updatedMoves), {
+			path: '/',
+			httpOnly: false,
+			expires: 1,
+			secure: false
+		});
+
+		event.cancel();
+	};
+
+	const enhanceSelection: SubmitFunction = (event) => {
+		const searchParams = event.action.searchParams;
+		const row = parseInt(searchParams.get('row') || '-1');
+		const col = parseInt(searchParams.get('col') || '-1');
+		data.selectedRow = row;
+		data.selectedCol = col;
+
+		Cookies.set('selectedRow', row.toString(), {
+			path: '/',
+			httpOnly: false,
+			expires: 1,
+			secure: false
+		});
+		Cookies.set('selectedCol', col.toString(), {
+			path: '/',
+			httpOnly: false,
+			expires: 1,
+			secure: false
+		});
+		event.cancel();
+	};
 </script>
 
 <main class="box-border flex w-full flex-auto flex-col justify-between gap-2">
 	<div class="m-auto flex aspect-square max-w-[min(100%,_752px,_80vh)] flex-[1_1_100%]">
-		<form class="my-auto grid aspect-square w-full grid-cols-9" method="post" use:enhance>
+		<form
+			class="my-auto grid aspect-square w-full grid-cols-9 text-xl font-bold text-charade-900"
+			method="post"
+			use:enhance={enhanceSelection}
+		>
 			{#each boardWithMovesApplied as cell, i}
 				<button
-					class="grid aspect-square w-full select-none place-items-center border-b-[1px] border-r-[1px] border-charade-900 bg-snow-100 text-xl font-medium font-bold text-charade-900 hover:bg-aurora-300"
+					class="grid aspect-square w-full select-none place-items-center border-b-[1px] border-r-[1px] border-charade-900 bg-snow-100  hover:bg-aurora-300"
 					class:bg-frost-200={peerCellLocations.includes(i)}
 					class:bg-aurora-300={data.selectedRow * 9 + data.selectedCol === i}
 					class:bg-aurora-500={illegalLocations.includes(i) && peerCellLocations.includes(i)}
@@ -127,21 +162,21 @@
 			{/each}
 		</form>
 	</div>
-	<div class="grid gap-2">
-		<form class="grid w-full grid-cols-5 gap-2" method="post" use:enhance>
-			{#each [1, 2, 3, 4, 5] as number}
-				<button formaction={`?/number&number=${number}`} class="aspect-[3/2] bg-aurora-300">
-					{number}
-				</button>
-			{/each}
-			{#each [6, 7, 8, 9, 0] as number}
-				<button formaction={`?/number&number=${number}`} class="aspect-[3/2] bg-aurora-300">
+	<div class="grid gap-1 text-2xl font-medium text-snow-100">
+		<form class="grid w-full grid-cols-5 gap-1" method="post" use:enhance={enhanceNumberSubmit}>
+			{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] as number, i}
+				<button
+					formaction={`?/number&number=${number}`}
+					class="aspect-[3/2] bg-charade-600"
+					class:rounded-tl-2xl={i === 0}
+					class:rounded-tr-2xl={i === 4}
+				>
 					{number || 'X'}
 				</button>
 			{/each}
 		</form>
 		<form method="post" action="?/newgame" use:enhance>
-			<button class="block aspect-[15/2] w-full bg-aurora-300">New game</button>
+			<button class="block aspect-[15/2] w-full rounded-b-2xl bg-charade-600">New game</button>
 		</form>
 	</div>
 </main>

@@ -1,4 +1,4 @@
-import { generateBoard } from '$lib/util/boardUtils';
+import { doMove, generateBoard } from '$lib/util/boardUtils';
 import { error, fail, redirect, type Cookies } from '@sveltejs/kit';
 import type { ServerLoad } from '@sveltejs/kit';
 
@@ -38,8 +38,16 @@ export const load: ServerLoad = async (event) => {
 	const selectedCol = parseInt(event.cookies.get('selectedCol') || '-1');
 	const board = getBoardFromCookie(event.cookies);
 	const moves = getMovesFromCookie(event.cookies);
-	event.cookies.set('board', JSON.stringify(board));
-	event.cookies.set('moves', JSON.stringify(moves));
+	event.cookies.set('board', JSON.stringify(board), {
+		httpOnly: false,
+		path: '/',
+		maxAge: 86400
+	});
+	event.cookies.set('moves', JSON.stringify(moves), {
+		httpOnly: false,
+		path: '/',
+		maxAge: 86400
+	});
 	return {
 		board,
 		moves,
@@ -57,12 +65,20 @@ export const actions: Actions = {
 		if (row < -1 || row > 8) {
 			return fail(400, { message: 'invalid row' });
 		}
-		cookies.set('selectedRow', row.toString());
+		cookies.set('selectedRow', row.toString(), {
+			httpOnly: false,
+			path: '/',
+			maxAge: 86400
+		});
 
 		if (col < -1 || col > 8) {
 			return fail(400, { message: 'invalid column' });
 		}
-		cookies.set('selectedCol', col.toString());
+		cookies.set('selectedCol', col.toString(), {
+			httpOnly: false,
+			path: '/',
+			maxAge: 86400
+		});
 
 		return {
 			message: ''
@@ -75,13 +91,19 @@ export const actions: Actions = {
 		const board = getBoardFromCookie(event.cookies);
 		const moves = getMovesFromCookie(event.cookies);
 		const index = selectedRow * 9 + selectedCol;
-		if (board.at(index) !== 0) {
+		let updatedMoves = moves;
+		try {
+			updatedMoves = doMove(board, moves, index, number);
+		} catch (e) {
 			return fail(400, {
 				message: 'invalid location'
 			});
 		}
-		moves[index] = number;
-		event.cookies.set('moves', JSON.stringify(moves));
+		event.cookies.set('moves', JSON.stringify(updatedMoves), {
+			httpOnly: false,
+			path: '/',
+			maxAge: 86400
+		});
 
 		return {
 			message: ''
