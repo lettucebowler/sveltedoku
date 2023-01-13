@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance, type SubmitFunction } from '$app/forms';
-	import { updated } from '$app/stores';
 	import { doMove } from '$lib/util/boardUtils';
 	import Cookies from 'js-cookie';
 
@@ -167,7 +166,7 @@
 			{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] as number, i}
 				<button
 					formaction={`?/number&number=${number}`}
-					class="aspect-[3/2] bg-charade-600 hover:bg-charade-700 active:bg-charade-800"
+					class="bg-charade-600 p-2 hover:bg-charade-700 active:bg-charade-800"
 					class:rounded-tl-2xl={i === 0}
 					class:rounded-tr-2xl={i === 4}
 				>
@@ -177,7 +176,7 @@
 		</form>
 		<form method="post" action="?/newgame" use:enhance>
 			<button
-				class="block aspect-[15/2] w-full rounded-b-2xl bg-charade-600 hover:bg-charade-700 active:bg-charade-800"
+				class="block w-full rounded-b-2xl bg-charade-600 p-4 hover:bg-charade-700 active:bg-charade-800"
 				>New game</button
 			>
 		</form>

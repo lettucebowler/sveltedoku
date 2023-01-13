@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '$lib/assets/app.css';
-	import Navbar from '$lib/components/Navbar.svelte';
+	import { page } from '$app/stores';
+
 	import smallFavicon from '$lib/assets/favicon-16x16.png';
 	import bigFavicon from '$lib/assets/favicon-32x32.png';
 	import appleTouchIcon from '$lib/assets/apple-touch-icon.png';
@@ -31,7 +32,26 @@
 <div
 	class="mx-auto box-border flex flex max-h-[100dvh] w-full max-w-screen-md flex-auto flex-col gap-2 p-1"
 >
-	<Navbar {links} />
+	<nav
+		class="box-border flex justify-between gap-x-1 rounded-2xl bg-charade-600 p-1"
+		id="primary-nav"
+	>
+		{#each links as link}
+			<a
+				data-sveltekit-preload-data
+				class="flex h-14 flex-[1_0_auto] cursor-pointer overflow-hidden rounded-xl border-transparent p-0 text-3xl font-medium text-snow-300 active:backdrop-brightness-90"
+				class:backdrop-brightness-90={link.path === $page.url.pathname}
+				href={link.path}
+				><span
+					class="grid h-full w-full place-items-center p-2 text-center duration-150 hover:backdrop-brightness-90 hover:backdrop-filter"
+				>
+					<span class="flex items-center gap-2">
+						<span>{link.name}</span>
+					</span>
+				</span></a
+			>
+		{/each}
+	</nav>
 	<div class="box-border flex w-full flex-auto flex-col items-center">
 		<slot />
 	</div>
