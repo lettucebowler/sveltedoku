@@ -1,88 +1,14 @@
 <script lang="ts">
 	import { enhance, type SubmitFunction } from '$app/forms';
-	import { doMove } from '$lib/util/boardUtils';
+	import {
+		doMove,
+		getPeerCellLocations,
+		getPeerDigitLocations,
+		getIllegalLocations
+	} from '$lib/util/boardUtils';
 	import Cookies from 'js-cookie';
 
 	export let data: import('./$types').PageData;
-
-	const getPeerCellLocations = (row: number, col: number, order: number) => {
-		if (isNaN(row) || isNaN(col) || row < 0 || col < 0) {
-			return [];
-		}
-
-		const rowIndices = Array.from(Array(order * order).keys()).map(
-			(col) => row * order * order + col
-		);
-		const colIndices = Array.from(Array(order * order).keys()).map(
-			(row) => col + row * order * order
-		);
-
-		const trunkRoot = Math.floor(col / order) * order;
-		const laneRoot = Math.floor(row / order) * order;
-		const blockIndices = [0, 1, 2, 9, 10, 11, 18, 19, 20].map(
-			(offset) => offset + (laneRoot * order * order + trunkRoot)
-		);
-		const selectedIndex = row * order * order + col;
-		const peerCellLocations = [...new Set([...rowIndices, ...colIndices, ...blockIndices])]
-			.sort((a, b) => (a > b ? 1 : -1))
-			.filter((index) => index !== selectedIndex);
-		return peerCellLocations;
-	};
-
-	const getDuplicateLocations = (locations: { num: number; col: number; row: number }[][][]) =>
-		locations
-			.flat()
-			.filter((l: { num: number; col: number; row: number }[]) => l.length > 1)
-			.flat();
-
-	const getIllegalLocations = (board: number[]) => {
-		const order = 3;
-		const rows: { num: number; row: number; col: number }[][][] = Array(9)
-			.fill(0)
-			.map(() =>
-				Array(10)
-					.fill(0)
-					.map(() => [])
-			);
-		const cols = JSON.parse(JSON.stringify(rows));
-		const blocks = JSON.parse(JSON.stringify(rows));
-
-		board.forEach((num, index: number) => {
-			if (!num) {
-				return;
-			}
-
-			const row = Math.floor(index / (order * order));
-			const col = Math.floor(index % (order * order));
-			const lane = Math.floor(row / order);
-			const trunk = Math.floor(col / order);
-			const block = lane * order + trunk;
-			rows[row][num] = rows[row][num].concat({ num: num, row, col });
-			cols[col][num] = cols[col][num].concat({ num: num, row, col });
-			blocks[block][num] = blocks[block][num].concat({ num: num, row, col });
-		});
-
-		const duplicateLocations = [
-			...new Set(
-				[
-					...getDuplicateLocations(rows),
-					...getDuplicateLocations(cols),
-					...getDuplicateLocations(blocks)
-				].map((c) => c.row * order * order + c.col)
-			)
-		];
-		return duplicateLocations;
-	};
-
-	$: peerCellLocations = getPeerCellLocations(data.selectedRow, data.selectedCol, 3);
-	$: boardWithMovesApplied = data.board.map((initialValue, i) => {
-		if (initialValue !== 0) {
-			return initialValue;
-		}
-		return data.moves[i];
-	});
-	$: illegalLocations = getIllegalLocations(boardWithMovesApplied);
-	$: success = !illegalLocations.length && !boardWithMovesApplied.some((c) => !c);
 
 	const enhanceNumberSubmit: SubmitFunction = (event) => {
 		const number = parseInt(event.action.searchParams.get('number') || '');
@@ -130,6 +56,21 @@
 		});
 		event.cancel();
 	};
+
+	$: boardWithMovesApplied = data.board.map((initialValue, i) => {
+		if (initialValue !== 0) {
+			return initialValue;
+		}
+		return data.moves[i];
+	});
+	$: peerCellLocations = getPeerCellLocations(data.selectedRow, data.selectedCol, 3);
+	$: peerDigitLocations = getPeerDigitLocations(
+		boardWithMovesApplied,
+		boardWithMovesApplied[data.selectedRow * 9 + data.selectedCol]
+	);
+	$: illegalLocations = getIllegalLocations(boardWithMovesApplied);
+	$: success = !illegalLocations.length && !boardWithMovesApplied.some((c) => !c);
+	$: selectedCell = data.selectedRow * 9 + data.selectedCol;
 </script>
 
 <main class="flex w-full flex-auto flex-col justify-between gap-2">
@@ -150,12 +91,15 @@
 										{@const col = trunk * 3 + subCol}
 										{@const i = row * 9 + col}
 										{@const cell = boardWithMovesApplied[i]}
+										{@const cellSelected = i === selectedCell}
 										<button
 											class="grid aspect-square w-full select-none place-items-center border-charade-900 bg-snow-100 hover:bg-aurora-300"
 											class:bg-frost-200={peerCellLocations.includes(i)}
-											class:bg-aurora-300={data.selectedRow * 9 + data.selectedCol === i}
-											class:bg-aurora-500={illegalLocations.includes(i) &&
-												peerCellLocations.includes(i)}
+											class:bg-aurora-300={cellSelected}
+											class:bg-aurora-500={!data.board[selectedCell] &&
+												illegalLocations.includes(i) &&
+												peerCellLocations.includes(i) &&
+												peerDigitLocations.includes(i)}
 											class:bg-aurora-400={success}
 											class:text-frost-400={!!data.moves[i] && !data.board[i]}
 											class:text-aurora-100={illegalLocations.includes(i) && !data.board[i]}
