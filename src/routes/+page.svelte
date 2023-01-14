@@ -117,14 +117,13 @@
 	);
 	$: illegalLocations = getIllegalLocations(boardWithMovesApplied);
 	$: success = !illegalLocations.length && !boardWithMovesApplied.some((c) => !c);
-	$: selectedCell = data.selectedRow * 9 + data.selectedCol;
 </script>
 
 <svelte:window on:keydown={clickNumber} />
 <main class="flex w-full flex-auto flex-col justify-between gap-2">
-	<div class="m-auto flex aspect-square h-full max-w-[100%]">
+	<div class="m-auto flex aspect-square h-full w-full max-w-[100%]">
 		<form
-			class="my-auto grid aspect-square w-full grid-rows-3 gap-1 text-xl font-bold text-charade-900"
+			class="my-auto mx-auto grid aspect-square w-full max-w-[755px] grid-rows-3 gap-1 rounded-3xl text-xl font-bold text-charade-900 sm:gap-2"
 			method="post"
 			use:enhance={enhanceSelection}
 		>
@@ -132,19 +131,18 @@
 				<div class="grid grid-rows-3 gap-0.5">
 					{#each [0, 1, 2] as subRow}
 						{@const row = lane * 3 + subRow}
-						<div class="grid grid-cols-3 gap-1">
+						<div class="grid grid-cols-3 gap-1 sm:gap-2">
 							{#each [0, 1, 2] as trunk}
 								<div class="grid grid-cols-3 gap-0.5">
 									{#each [0, 1, 2] as subCol}
 										{@const col = trunk * 3 + subCol}
 										{@const i = row * 9 + col}
-										{@const cell = boardWithMovesApplied[i]}
-										{@const cellSelected = i === selectedCell}
+										{@const cellSelected = i === data.selectedRow * 9 + data.selectedCol}
 										<button
-											class="grid aspect-square w-full select-none place-items-center border-charade-900 bg-snow-100 hover:bg-aurora-300"
+											class="grid aspect-square h-full select-none place-items-center rounded-sm border-charade-900 bg-snow-100 hover:bg-aurora-300"
 											class:bg-frost-200={peerCellLocations.includes(i)}
 											class:bg-aurora-300={cellSelected}
-											class:bg-aurora-500={!data.board[selectedCell] &&
+											class:bg-aurora-500={!data.board[data.selectedRow * 9 + data.selectedCol] &&
 												illegalLocations.includes(i) &&
 												peerCellLocations.includes(i) &&
 												peerDigitLocations.includes(i)}
@@ -159,10 +157,10 @@
 											class:rounded-tr-2xl={i === 8}
 											class:rounded-bl-2xl={i === 72}
 											class:rounded-br-2xl={i === 80}
-											class:text-transparent={!cell}
+											class:text-transparent={!boardWithMovesApplied[i]}
 											formaction={`?/selection&col=${i % 9}&row=${Math.floor(i / 9)}`}
 										>
-											{cell}
+											{boardWithMovesApplied[i]}
 										</button>
 									{/each}
 								</div>
