@@ -84,6 +84,8 @@
 	$: illegalLocations = getIllegalLocations(boardWithMovesApplied);
 	$: success = !illegalLocations.length && !boardWithMovesApplied.some((c) => !c);
 
+	$: indexedBoard = boardWithMovesApplied.map((num, i) => ({ i, num }));
+
 	const enhanceNumberSubmit: SubmitFunction = (event) => {
 		const number = parseInt(event.action.searchParams.get('number') || '');
 		let updatedMoves = data.moves;
@@ -132,32 +134,47 @@
 	};
 </script>
 
-<main class="box-border flex w-full flex-auto flex-col justify-between gap-2">
-	<div class="m-auto flex aspect-square max-w-[min(100%,_752px,_80vh)] flex-[1_1_100%]">
+<main class="flex w-full flex-auto flex-col justify-between gap-2">
+	<div class="m-auto flex aspect-square h-full max-w-[100%]">
 		<form
-			class="my-auto grid aspect-square w-full grid-cols-9 text-xl font-bold text-charade-900"
+			class="my-auto grid aspect-square w-full grid-rows-3 gap-1 text-xl font-bold text-charade-900"
 			method="post"
 			use:enhance={enhanceSelection}
 		>
-			{#each boardWithMovesApplied as cell, i}
-				<button
-					class="grid aspect-square w-full select-none place-items-center border-b-[1px] border-r-[1px] border-charade-900 bg-snow-100  hover:bg-aurora-300"
-					class:bg-frost-200={peerCellLocations.includes(i)}
-					class:bg-aurora-300={data.selectedRow * 9 + data.selectedCol === i}
-					class:bg-aurora-500={illegalLocations.includes(i) && peerCellLocations.includes(i)}
-					class:bg-aurora-400={success}
-					class:text-frost-400={!!data.moves[i] && !data.board[i]}
-					class:text-aurora-100={illegalLocations.includes(i) && !data.board[i]}
-					class:border-r-2={i % 3 === 2 && i % 9 < 8}
-					class:rounded-tl-2xl={i === 0}
-					class:rounded-tr-2xl={i === 8}
-					class:rounded-bl-2xl={i === 72}
-					class:rounded-br-2xl={i === 80}
-					class:text-transparent={!cell}
-					class:border-r-[3px]={i % 3 === 2 && i % 3 < 8}
-					class:border-b-[3px]={Math.floor(i / 9) % 3 === 2 && i < 71}
-					formaction={`?/selection&col=${i % 9}&row=${Math.floor(i / 9)}`}>{cell}</button
-				>
+			{#each [0, 1, 2] as lane}
+				<div class="grid grid-rows-3 gap-0.5">
+					{#each [0, 1, 2] as subRow}
+						{@const row = lane * 3 + subRow}
+						<div class="grid grid-cols-3 gap-1">
+							{#each [0, 1, 2] as trunk}
+								<div class="grid grid-cols-3 gap-0.5">
+									{#each [0, 1, 2] as subCol}
+										{@const col = trunk * 3 + subCol}
+										{@const i = row * 9 + col}
+										{@const cell = boardWithMovesApplied[i]}
+										<button
+											class="grid aspect-square w-full select-none place-items-center border-charade-900 bg-snow-100 hover:bg-aurora-300"
+											class:bg-frost-200={peerCellLocations.includes(i)}
+											class:bg-aurora-300={data.selectedRow * 9 + data.selectedCol === i}
+											class:bg-aurora-500={illegalLocations.includes(i) &&
+												peerCellLocations.includes(i)}
+											class:bg-aurora-400={success}
+											class:text-frost-400={!!data.moves[i] && !data.board[i]}
+											class:text-aurora-100={illegalLocations.includes(i) && !data.board[i]}
+											class:rounded-tl-2xl={i === 0}
+											class:rounded-tr-2xl={i === 8}
+											class:rounded-bl-2xl={i === 72}
+											class:rounded-br-2xl={i === 80}
+											class:text-transparent={!cell}
+											formaction={`?/selection&col=${i % 9}&row=${Math.floor(i / 9)}`}
+											>{cell}</button
+										>
+									{/each}
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 			{/each}
 		</form>
 	</div>
@@ -166,7 +183,7 @@
 			{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] as number, i}
 				<button
 					formaction={`?/number&number=${number}`}
-					class="bg-charade-600 p-2 hover:bg-charade-700 active:bg-charade-800"
+					class="rounded bg-charade-600 p-2 hover:bg-charade-700 active:bg-charade-800"
 					class:rounded-tl-2xl={i === 0}
 					class:rounded-tr-2xl={i === 4}
 				>
@@ -176,7 +193,7 @@
 		</form>
 		<form method="post" action="?/newgame" use:enhance>
 			<button
-				class="block w-full rounded-b-2xl bg-charade-600 p-4 hover:bg-charade-700 active:bg-charade-800"
+				class="block w-full rounded-t rounded-b-2xl bg-charade-600 p-4 hover:bg-charade-700 active:bg-charade-800"
 				>New game</button
 			>
 		</form>
