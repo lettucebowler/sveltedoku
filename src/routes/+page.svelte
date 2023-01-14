@@ -4,7 +4,8 @@
 		doMove,
 		getPeerCellLocations,
 		getPeerDigitLocations,
-		getIllegalLocations
+		getIllegalLocations,
+		generateBoard
 	} from '$lib/util/boardUtils';
 	import Cookies from 'js-cookie';
 
@@ -49,6 +50,36 @@
 			secure: false
 		});
 		Cookies.set('selectedCol', col.toString(), {
+			path: '/',
+			httpOnly: false,
+			expires: 1,
+			secure: false
+		});
+		event.cancel();
+	};
+
+	const enhanceNewGame: SubmitFunction = (event) => {
+		Cookies.set('selectedRow', '-1', {
+			path: '/',
+			httpOnly: false,
+			expires: 1,
+			secure: false
+		});
+		Cookies.set('selectedCol', '-1', {
+			path: '/',
+			httpOnly: false,
+			expires: 1,
+			secure: false
+		});
+		data.moves = new Array(81).fill(0);
+		data.board = generateBoard(30);
+		Cookies.set('moves', JSON.stringify(data.moves), {
+			path: '/',
+			httpOnly: false,
+			expires: 1,
+			secure: false
+		});
+		Cookies.set('board', JSON.stringify(data.board), {
 			path: '/',
 			httpOnly: false,
 			expires: 1,
@@ -138,7 +169,7 @@
 				</button>
 			{/each}
 		</form>
-		<form method="post" action="?/newgame" use:enhance>
+		<form method="post" action="?/newgame" use:enhance={enhanceNewGame}>
 			<button
 				class="block w-full rounded-t rounded-b-2xl bg-charade-600 p-4 hover:bg-charade-700 active:bg-charade-800"
 				>New game</button
