@@ -84,8 +84,6 @@
 	$: illegalLocations = getIllegalLocations(boardWithMovesApplied);
 	$: success = !illegalLocations.length && !boardWithMovesApplied.some((c) => !c);
 
-	$: indexedBoard = boardWithMovesApplied.map((num, i) => ({ i, num }));
-
 	const enhanceNumberSubmit: SubmitFunction = (event) => {
 		const number = parseInt(event.action.searchParams.get('number') || '');
 		let updatedMoves = data.moves;
@@ -161,14 +159,19 @@
 											class:bg-aurora-400={success}
 											class:text-frost-400={!!data.moves[i] && !data.board[i]}
 											class:text-aurora-100={illegalLocations.includes(i) && !data.board[i]}
+											class:rounded-tr={i % 3 === 2 && Math.floor(i / 9) % 3 === 0}
+											class:rounded-tl={i % 3 === 0 && Math.floor(i / 9) % 3 === 0}
+											class:rounded-br={i % 3 === 2 && Math.floor(i / 9) % 3 === 2}
+											class:rounded-bl={i % 3 === 0 && Math.floor(i / 9) % 3 === 2}
 											class:rounded-tl-2xl={i === 0}
 											class:rounded-tr-2xl={i === 8}
 											class:rounded-bl-2xl={i === 72}
 											class:rounded-br-2xl={i === 80}
 											class:text-transparent={!cell}
 											formaction={`?/selection&col=${i % 9}&row=${Math.floor(i / 9)}`}
-											>{cell}</button
 										>
+											{cell}
+										</button>
 									{/each}
 								</div>
 							{/each}
