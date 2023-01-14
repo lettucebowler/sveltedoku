@@ -11,6 +11,22 @@
 
 	export let data: import('./$types').PageData;
 
+	const keys = new Array(10).fill(undefined);
+
+	const clickNumber = (event: KeyboardEvent) => {
+		const validKeys = /[0-9]/;
+		if (!validKeys.test(event.key)) {
+			return;
+		}
+
+		const keyNum = parseInt(event.key);
+		if (!keys[keyNum]) {
+			return;
+		}
+
+		keys[keyNum].click();
+	};
+
 	const enhanceNumberSubmit: SubmitFunction = (event) => {
 		const number = parseInt(event.action.searchParams.get('number') || '');
 		let updatedMoves = data.moves;
@@ -104,6 +120,7 @@
 	$: selectedCell = data.selectedRow * 9 + data.selectedCol;
 </script>
 
+<svelte:window on:keydown={clickNumber} />
 <main class="flex w-full flex-auto flex-col justify-between gap-2">
 	<div class="m-auto flex aspect-square h-full max-w-[100%]">
 		<form
@@ -161,6 +178,7 @@
 			{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] as number, i}
 				<button
 					formaction={`?/number&number=${number}`}
+					bind:this={keys[number]}
 					class="rounded bg-charade-600 p-2 hover:bg-charade-700 active:bg-charade-800"
 					class:rounded-tl-2xl={i === 0}
 					class:rounded-tr-2xl={i === 4}
