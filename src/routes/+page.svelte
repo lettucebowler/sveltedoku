@@ -12,19 +12,55 @@
 	export let data: import('./$types').PageData;
 
 	const keys = new Array(10).fill(undefined);
+	const cells = new Array(81).fill(undefined);
 
-	const clickNumber = (event: KeyboardEvent) => {
-		const validKeys = /[0-9]/;
-		if (!validKeys.test(event.key)) {
+	const clickNumber = (num: number) => {
+		if (![0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(num)) {
+			return;
+		}
+		keys[num].click();
+	};
+
+	type Offset = {
+		row: -1 | 0 | 1;
+		col: -1 | 0 | 1;
+	};
+
+	const moveSelection = (offset: Offset) => {
+		const modulo = (value: number, n: number = 0) => {
+			return ((value % n) + n) % n;
+		};
+		const i =
+			modulo(data.selectedRow + offset.row, 9) * 9 + modulo(data.selectedCol + offset.col, 9);
+		if (cells[i]) {
+			cells[i].click();
+			cells[i].focus();
+		}
+	};
+
+	const handleKeyPress = (event: KeyboardEvent) => {
+		const key = event.key || '';
+		if (!key) {
 			return;
 		}
 
-		const keyNum = parseInt(event.key);
-		if (!keys[keyNum]) {
+		const validNumbers = /[0-9]/;
+		if (validNumbers.test(key)) {
+			clickNumber(parseInt(key));
+		}
+
+		const offsets = new Map<string, Offset>([
+			['ArrowRight', { row: 0, col: 1 }],
+			['ArrowLeft', { row: 0, col: -1 }],
+			['ArrowUp', { row: -1, col: 0 }],
+			['ArrowDown', { row: 1, col: 0 }]
+		]);
+		const offset = offsets.get(key);
+		if (!offset) {
 			return;
 		}
 
-		keys[keyNum].click();
+		moveSelection(offset);
 	};
 
 	const enhanceNumberSubmit: SubmitFunction = (event) => {
@@ -81,12 +117,14 @@
 			expires: 1,
 			secure: false
 		});
+		data.selectedRow = -1;
 		Cookies.set('selectedCol', '-1', {
 			path: '/',
 			httpOnly: false,
 			expires: 1,
 			secure: false
 		});
+		data.selectedCol = -1;
 		data.moves = new Array(81).fill(0);
 		data.board = generateBoard(30);
 		Cookies.set('moves', JSON.stringify(data.moves), {
@@ -119,11 +157,11 @@
 	$: success = !illegalLocations.length && !boardWithMovesApplied.some((c) => !c);
 </script>
 
-<svelte:window on:keydown={clickNumber} />
+<svelte:window on:keydown={handleKeyPress} />
 <main class="flex w-full flex-auto flex-col justify-between gap-2">
 	<div class="m-auto flex aspect-square h-full w-full max-w-[100%]">
 		<form
-			class="my-auto mx-auto grid aspect-square w-full max-w-[755px] grid-rows-3 gap-1 rounded-3xl text-xl font-bold text-charade-900 sm:gap-2"
+			class="my-auto mx-auto grid aspect-square w-full grid-rows-3 gap-1 rounded-3xl text-base font-bold text-charade-900 sm:gap-2 sm:text-xl md:text-2xl lg:text-3xl"
 			method="post"
 			use:enhance={enhanceSelection}
 		>
@@ -139,7 +177,7 @@
 										{@const i = row * 9 + col}
 										{@const cellSelected = i === data.selectedRow * 9 + data.selectedCol}
 										<button
-											class="grid aspect-square h-full select-none place-items-center rounded-sm border-charade-900 bg-snow-100 hover:bg-aurora-300"
+											class="grid aspect-square h-full select-none place-items-center rounded-sm border-charade-900 bg-snow-100 outline-none ring-inset ring-aurora-200 hover:bg-aurora-300 focus:ring-4 focus-visible:ring-4"
 											class:bg-frost-200={peerCellLocations.includes(i)}
 											class:bg-aurora-300={cellSelected}
 											class:bg-aurora-500={!data.board[data.selectedRow * 9 + data.selectedCol] &&
@@ -159,6 +197,7 @@
 											class:rounded-br-2xl={i === 80}
 											class:text-transparent={!boardWithMovesApplied[i]}
 											formaction={`?/selection&col=${i % 9}&row=${Math.floor(i / 9)}`}
+											bind:this={cells[i]}
 										>
 											{boardWithMovesApplied[i]}
 										</button>

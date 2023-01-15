@@ -39,15 +39,11 @@
 		{#each links as link}
 			<a
 				data-sveltekit-preload-data
-				class="flex h-14 flex-[1_0_auto] cursor-pointer overflow-hidden rounded-xl border-transparent p-0 text-3xl font-medium text-snow-300 active:backdrop-brightness-90"
-				class:backdrop-brightness-90={link.path === $page.url.pathname}
+				class="flex h-14 flex-[1_0_auto] cursor-pointer rounded-xl text-3xl font-medium text-snow-300 hover:bg-charade-700 active:bg-charade-800"
+				class:bg-charade-700={link.path === $page.url.pathname}
 				href={link.path}
-				><span
-					class="grid h-full w-full place-items-center p-2 text-center duration-150 hover:backdrop-brightness-90 hover:backdrop-filter"
-				>
-					<span class="flex items-center gap-2">
-						<span>{link.name}</span>
-					</span>
+				><span class="grid h-full w-full place-items-center p-2 text-center duration-150">
+					{link.name}
 				</span></a
 			>
 		{/each}
