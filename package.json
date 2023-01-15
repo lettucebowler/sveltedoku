@@ -12,8 +12,8 @@
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-vercel": "^1.0.2",
-		"@sveltejs/kit": "^1.1.0",
+		"@sveltejs/adapter-vercel": "^1.0.3",
+		"@sveltejs/kit": "^1.1.1",
 		"@types/cookie": "^0.5.1",
 		"@types/js-cookie": "^3.0.2",
 		"@typescript-eslint/eslint-plugin": "^5.48.1",
@@ -25,7 +25,7 @@
 		"eslint-plugin-svelte3": "^4.0.0",
 		"js-cookie": "^3.0.1",
 		"postcss": "^8.4.21",
-		"prettier": "^2.8.2",
+		"prettier": "^2.8.3",
 		"prettier-plugin-svelte": "^2.9.0",
 		"prettier-plugin-tailwindcss": "^0.1.13",
 		"sudokutoolcollection": "^1.1.3",
