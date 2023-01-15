@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@sveltejs/adapter-vercel': 1.0.2
+  '@sveltejs/adapter-vercel': ^1.0.4
   '@sveltejs/kit': ^1.1.1
   '@types/cookie': ^0.5.1
   '@types/js-cookie': ^3.0.2
@@ -26,7 +26,7 @@ specifiers:
   vite: ^4.0.4
 
 devDependencies:
-  '@sveltejs/adapter-vercel': 1.0.2_@sveltejs+kit@1.1.1
+  '@sveltejs/adapter-vercel': 1.0.4_@sveltejs+kit@1.1.1
   '@sveltejs/kit': 1.1.1_svelte@3.55.1+vite@4.0.4
   '@types/cookie': 0.5.1
   '@types/js-cookie': 3.0.2
@@ -458,10 +458,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@sveltejs/adapter-vercel/1.0.2_@sveltejs+kit@1.1.1:
+  /@sveltejs/adapter-vercel/1.0.4_@sveltejs+kit@1.1.1:
     resolution:
       {
-        integrity: sha512-Ms2cTlqpA8Rf6Pl8GuqC6bLoMdA30W688+wV8i6DcHlLO3Z9NBEZET2jF+tEmRF1jrxxAWEDngdQBfs25eOBxw==
+        integrity: sha512-kBh60gq+nB4258Vbu1G7vwofVz4HqTUbWf11N5PSOOqb5hoCalr5PXEhnn0wQwSE9eyFhehi/GCNQE7FC0dUhQ==
       }
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
