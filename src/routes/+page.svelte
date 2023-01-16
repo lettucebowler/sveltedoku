@@ -142,12 +142,7 @@
 		event.cancel();
 	};
 
-	$: boardWithMovesApplied = data.board.map((initialValue, i) => {
-		if (initialValue !== 0) {
-			return initialValue;
-		}
-		return data.moves[i];
-	});
+	$: boardWithMovesApplied = data.board.map((initialValue, i) => (initialValue ||= data.moves[i]));
 	$: peerCellLocations = getPeerCellLocations(data.selectedRow, data.selectedCol, 3);
 	$: peerDigitLocations = getPeerDigitLocations(
 		boardWithMovesApplied,
