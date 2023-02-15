@@ -144,6 +144,7 @@
 
 	$: boardWithMovesApplied = data.board.map((initialValue, i) => (initialValue ||= data.moves[i]));
 	$: peerCellLocations = getPeerCellLocations(data.selectedRow, data.selectedCol, 3);
+	$: console.log(peerCellLocations);
 	$: peerDigitLocations = getPeerDigitLocations(
 		boardWithMovesApplied,
 		boardWithMovesApplied[data.selectedRow * 9 + data.selectedCol]
@@ -171,14 +172,18 @@
 										{@const col = trunk * 3 + subCol}
 										{@const i = row * 9 + col}
 										{@const cellSelected = i === data.selectedRow * 9 + data.selectedCol}
+										{@const isPeerCell = peerCellLocations.includes(i)}
+										{@const isInvalidPeerDigit =
+											!data.board[data.selectedRow * 9 + data.selectedCol] &&
+											illegalLocations.includes(i) &&
+											peerCellLocations.includes(i) &&
+											peerDigitLocations.includes(i)}
 										<button
-											class="grid aspect-square h-full select-none place-items-center rounded-sm border-charade-900 bg-snow-100 outline-none ring-inset ring-aurora-200 hover:bg-aurora-300 focus:ring-4 focus-visible:ring-4"
-											class:bg-frost-200={peerCellLocations.includes(i)}
+											class="grid aspect-square h-full select-none place-items-center rounded-sm border-charade-900 outline-none ring-inset ring-aurora-200 hover:bg-aurora-300 focus:ring-4 focus-visible:ring-4"
+											class:bg-frost-200={isPeerCell}
 											class:bg-aurora-300={cellSelected}
-											class:bg-aurora-500={!data.board[data.selectedRow * 9 + data.selectedCol] &&
-												illegalLocations.includes(i) &&
-												peerCellLocations.includes(i) &&
-												peerDigitLocations.includes(i)}
+											class:bg-aurora-500={isInvalidPeerDigit}
+											class:bg-snow-100={!isPeerCell && !cellSelected && !isInvalidPeerDigit}
 											class:bg-aurora-400={success}
 											class:text-frost-400={!!data.moves[i] && !data.board[i]}
 											class:text-aurora-100={illegalLocations.includes(i) && !data.board[i]}
@@ -194,7 +199,8 @@
 											formaction={`?/selection&col=${i % 9}&row=${Math.floor(i / 9)}`}
 											bind:this={cells[i]}
 										>
-											{boardWithMovesApplied[i]}
+											<!-- {boardWithMovesApplied[i]} -->
+											{peerCellLocations.includes(i)}
 										</button>
 									{/each}
 								</div>
