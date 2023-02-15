@@ -144,7 +144,6 @@
 
 	$: boardWithMovesApplied = data.board.map((initialValue, i) => (initialValue ||= data.moves[i]));
 	$: peerCellLocations = getPeerCellLocations(data.selectedRow, data.selectedCol, 3);
-	$: console.log(peerCellLocations);
 	$: peerDigitLocations = getPeerDigitLocations(
 		boardWithMovesApplied,
 		boardWithMovesApplied[data.selectedRow * 9 + data.selectedCol]
