@@ -199,8 +199,7 @@
 											formaction={`?/selection&col=${i % 9}&row=${Math.floor(i / 9)}`}
 											bind:this={cells[i]}
 										>
-											<!-- {boardWithMovesApplied[i]} -->
-											{peerCellLocations.includes(i)}
+											{boardWithMovesApplied[i]}
 										</button>
 									{/each}
 								</div>
