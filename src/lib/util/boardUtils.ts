@@ -87,8 +87,13 @@ export const getIllegalLocations = (board: number[]) => {
 	return duplicateLocations;
 };
 
-export const getPeerDigitLocations = (board: number[], selectedNum: number) => {
+export const getPeerDigitLocations = (
+	board: number[],
+	selectedRow: number,
+	selectedCol: number
+) => {
 	let locations: number[] = [];
+	const selectedNum = board.at(selectedRow * 9 + selectedCol);
 	board.forEach((num, i) => {
 		if (!num) {
 			return;

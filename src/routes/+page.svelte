@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance, type SubmitFunction } from '$app/forms';
+	import { focusAction, hotKeyAction } from 'svelte-legos';
 	import {
 		doMove,
 		getPeerCellLocations,
@@ -10,17 +11,6 @@
 	import Cookies from 'js-cookie';
 
 	export let data: import('./$types').PageData;
-
-	const keys = new Array(10).fill(undefined);
-	const cells = new Array(81).fill(undefined);
-
-	const clickNumber = (num: number) => {
-		if (![0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(num)) {
-			return;
-		}
-		keys[num].click();
-	};
-
 	type Offset = {
 		row: -1 | 0 | 1;
 		col: -1 | 0 | 1;
@@ -30,37 +20,8 @@
 		const modulo = (value: number, n: number = 0) => {
 			return ((value % n) + n) % n;
 		};
-		const i =
-			modulo(data.selectedRow + offset.row, 9) * 9 + modulo(data.selectedCol + offset.col, 9);
-		if (cells[i]) {
-			cells[i].click();
-			cells[i].focus();
-		}
-	};
-
-	const handleKeyPress = (event: KeyboardEvent) => {
-		const key = event.key || '';
-		if (!key) {
-			return;
-		}
-
-		const validNumbers = /[0-9]/;
-		if (validNumbers.test(key)) {
-			clickNumber(parseInt(key));
-		}
-
-		const offsets = new Map<string, Offset>([
-			['ArrowRight', { row: 0, col: 1 }],
-			['ArrowLeft', { row: 0, col: -1 }],
-			['ArrowUp', { row: -1, col: 0 }],
-			['ArrowDown', { row: 1, col: 0 }]
-		]);
-		const offset = offsets.get(key);
-		if (!offset) {
-			return;
-		}
-
-		moveSelection(offset);
+		data.selectedCol = modulo(data.selectedCol + offset.col, 9);
+		data.selectedRow = modulo(data.selectedRow + offset.row, 9);
 	};
 
 	const enhanceNumberSubmit: SubmitFunction = (event) => {
@@ -146,13 +107,19 @@
 	$: peerCellLocations = getPeerCellLocations(data.selectedRow, data.selectedCol, 3);
 	$: peerDigitLocations = getPeerDigitLocations(
 		boardWithMovesApplied,
-		boardWithMovesApplied[data.selectedRow * 9 + data.selectedCol]
+		data.selectedRow,
+		data.selectedCol
 	);
 	$: illegalLocations = getIllegalLocations(boardWithMovesApplied);
 	$: success = !illegalLocations.length && !boardWithMovesApplied.some((c) => !c);
 </script>
 
-<svelte:window on:keydown={handleKeyPress} />
+<svelte:window
+	use:hotKeyAction={{ code: 'ArrowRight', cb: () => moveSelection({ row: 0, col: 1 }) }}
+	use:hotKeyAction={{ code: 'ArrowLeft', cb: () => moveSelection({ row: 0, col: -1 }) }}
+	use:hotKeyAction={{ code: 'ArrowUp', cb: () => moveSelection({ row: -1, col: 0 }) }}
+	use:hotKeyAction={{ code: 'ArrowDown', cb: () => moveSelection({ row: 1, col: 0 }) }}
+/>
 <main class="flex w-full flex-auto flex-col justify-between gap-2">
 	<div class="m-auto flex aspect-square h-full w-full max-w-[100%]">
 		<form
@@ -179,12 +146,14 @@
 											peerDigitLocations.includes(i)}
 										<button
 											class="grid aspect-square h-full select-none place-items-center rounded-sm border-charade-900 outline-none ring-inset ring-aurora-200 hover:bg-aurora-300 focus:ring-4 focus-visible:ring-4"
-											class:bg-frost-200={isPeerCell}
+											class:bg-frost-200={isPeerCell && !isInvalidPeerDigit}
 											class:bg-aurora-300={cellSelected}
 											class:bg-aurora-500={isInvalidPeerDigit}
 											class:bg-snow-100={!isPeerCell && !cellSelected && !isInvalidPeerDigit}
 											class:bg-aurora-400={success}
-											class:text-frost-400={!!data.moves[i] && !data.board[i]}
+											class:text-frost-400={!!data.moves[i] &&
+												!data.board[i] &&
+												!illegalLocations.includes(i)}
 											class:text-aurora-100={illegalLocations.includes(i) && !data.board[i]}
 											class:rounded-tr={i % 3 === 2 && Math.floor(i / 9) % 3 === 0}
 											class:rounded-tl={i % 3 === 0 && Math.floor(i / 9) % 3 === 0}
@@ -196,7 +165,7 @@
 											class:rounded-br-2xl={i === 80}
 											class:text-transparent={!boardWithMovesApplied[i]}
 											formaction={`?/selection&col=${i % 9}&row=${Math.floor(i / 9)}`}
-											bind:this={cells[i]}
+											use:focusAction={cellSelected}
 										>
 											{boardWithMovesApplied[i]}
 										</button>
@@ -214,7 +183,8 @@
 			{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] as number, i}
 				<button
 					formaction={`?/number&number=${number}`}
-					bind:this={keys[number]}
+					use:hotKeyAction={{ code: `Digit${number}` }}
+					use:hotKeyAction={{ code: number === 0 ? 'KeyX' : undefined }}
 					class="rounded bg-charade-600 p-2 hover:bg-charade-700 active:bg-charade-800"
 					class:rounded-tl-2xl={i === 0}
 					class:rounded-tr-2xl={i === 4}
@@ -225,6 +195,7 @@
 		</form>
 		<form method="post" action="?/newgame" use:enhance={enhanceNewGame}>
 			<button
+				use:hotKeyAction={{ ctrl: true, alt: true, code: 'KeyN' }}
 				class="block w-full rounded-t rounded-b-2xl bg-charade-600 p-4 hover:bg-charade-700 active:bg-charade-800"
 				>New game</button
 			>
