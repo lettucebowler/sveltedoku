@@ -123,7 +123,7 @@
 <main class="flex w-full flex-auto flex-col justify-between gap-2">
 	<div class="m-auto flex aspect-square h-full w-full max-w-[100%]">
 		<form
-			class="my-auto mx-auto grid aspect-square w-full grid-rows-3 gap-1 rounded-3xl text-base font-bold text-charade-900 sm:gap-2 sm:text-xl md:text-2xl lg:text-3xl"
+			class="mx-auto my-auto grid aspect-square w-full grid-rows-3 gap-1 rounded-3xl text-base font-bold text-charade-900 sm:gap-2 sm:text-xl md:text-2xl lg:text-3xl"
 			method="post"
 			use:enhance={enhanceSelection}
 		>
@@ -196,7 +196,7 @@
 		<form method="post" action="?/newgame" use:enhance={enhanceNewGame}>
 			<button
 				use:hotKeyAction={{ ctrl: true, alt: true, code: 'KeyN' }}
-				class="block w-full rounded-t rounded-b-2xl bg-charade-600 p-4 hover:bg-charade-700 active:bg-charade-800"
+				class="block w-full rounded-b-2xl rounded-t bg-charade-600 p-4 hover:bg-charade-700 active:bg-charade-800"
 				>New game</button
 			>
 		</form>
