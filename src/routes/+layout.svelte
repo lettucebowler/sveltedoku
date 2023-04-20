@@ -7,6 +7,8 @@
 	import appleTouchIcon from '$lib/assets/apple-touch-icon.png';
 	import safariPinnedTabIcon from '$lib/assets/safari-pinned-tab.svg';
 	import { appName } from '$lib/util/store';
+	import { crossfade } from 'svelte/transition';
+	import { cubicOut } from 'svelte/easing';
 
 	const links = [
 		{
@@ -18,6 +20,11 @@
 			name: 'About'
 		}
 	];
+
+	const [send, recieve] = crossfade({
+		duration: 250,
+		easing: cubicOut
+	});
 </script>
 
 <svelte:head>
@@ -37,15 +44,25 @@
 		id="primary-nav"
 	>
 		{#each links as link}
-			<a
-				data-sveltekit-preload-data
-				class="flex h-14 flex-[1_0_auto] cursor-pointer rounded-xl text-3xl font-medium text-snow-300 hover:bg-charade-700 active:bg-charade-800"
-				class:bg-charade-700={link.path === $page.url.pathname}
-				href={link.path}
-				><span class="grid h-full w-full place-items-center p-2 text-center duration-150">
-					{link.name}
-				</span></a
-			>
+			{@const current = $page.url.pathname === link.path}
+			<div class="grid flex-auto items-center text-center">
+				{#if current}
+					<div
+						in:recieve={{ key: 'current-link' }}
+						out:send={{ key: 'current-link' }}
+						class="col-[1] row-[1] grid h-full items-center rounded-xl hover:bg-charade-700"
+						class:bg-charade-700={current}
+					/>
+				{/if}
+				<a
+					class="col-[1] row-[1] flex h-14 cursor-pointer overflow-hidden rounded-xl border-transparent px-6 py-2 text-center text-3xl font-medium text-snow-300 hover:underline"
+					class:text-snow-100={current}
+					aria-current={current}
+					href={link.path}
+				>
+					<span class="z-10 mx-auto">{link.name}</span></a
+				>
+			</div>
 		{/each}
 	</nav>
 	<div class="box-border flex w-full flex-auto flex-col items-center">
