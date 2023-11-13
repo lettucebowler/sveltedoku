@@ -1,5 +1,5 @@
 import { doMove, generateBoard } from '$lib/util/boardUtils';
-import { error, fail, redirect, type Cookies } from '@sveltejs/kit';
+import { fail, type Cookies } from '@sveltejs/kit';
 import type { ServerLoad } from '@sveltejs/kit';
 
 export const prerender = false;
@@ -58,7 +58,7 @@ export const load: ServerLoad = async (event) => {
 
 import type { Actions } from './$types';
 export const actions: Actions = {
-	selection: async ({ url, cookies, locals }) => {
+	selection: async ({ url, cookies }) => {
 		const row = parseInt(url.searchParams.get('row') || '-1');
 		const col = parseInt(url.searchParams.get('col') || '-1');
 

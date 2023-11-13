@@ -92,7 +92,7 @@ export const getPeerDigitLocations = (
 	selectedRow: number,
 	selectedCol: number
 ) => {
-	let locations: number[] = [];
+	const locations: number[] = [];
 	const selectedNum = board.at(selectedRow * 9 + selectedCol);
 	board.forEach((num, i) => {
 		if (!num) {
