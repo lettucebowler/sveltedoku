@@ -52,7 +52,7 @@
 						out:send={{ key: 'current-link' }}
 						class="col-[1] row-[1] grid h-full items-center rounded-xl hover:bg-charade-700"
 						class:bg-charade-700={current}
-					/>
+					></div>
 				{/if}
 				<a
 					class="col-[1] row-[1] flex h-14 cursor-pointer overflow-hidden rounded-xl border-transparent px-6 py-2 text-center text-3xl font-medium text-snow-300 hover:underline"

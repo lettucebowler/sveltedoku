@@ -110,10 +110,10 @@ export const actions: Actions = {
 		};
 	},
 	newgame: async (event) => {
-		event.cookies.delete('selectedRow');
-		event.cookies.delete('selectedCol');
-		event.cookies.delete('board');
-		event.cookies.delete('moves');
+		event.cookies.delete('selectedRow', { path: '/' });
+		event.cookies.delete('selectedCol', { path: '/' });
+		event.cookies.delete('board', { path: '/' });
+		event.cookies.delete('moves', { path: '/' });
 		return {
 			message: ''
 		};
